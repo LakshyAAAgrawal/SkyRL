@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim identifies a man who founded a fast food chain headquartered in Georgia and received the President's Volunteer Service Award. The documents confirm **Chick-fil-A** is a fast food chain headquartered in **College Park, Georgia** (a district of Atlanta). While the documents do not explicitly mention the award, the query must prioritize **\"Georgia\"** and **\"fast food chain\"** to align with the claim. To ensure specificity, we include \"founded\" and \"President's Volunteer Service Award\" to capture potential links.  \n\n### query:  \n\"fast food chain founded in Georgia President's Volunteer Service Award\" OR \"Chick-fil-A founder President's Volunteer Service Award\""
+}

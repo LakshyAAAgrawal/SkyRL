@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim specifies Gina Bramhill was born in a village (Eastoft) where the 2011 population of the area was 167,446. The document about North Lincolnshire directly states its 2011 population was 167,446, while the first document confirms Eastoft as Gina\u2019s birthplace. To link these, the query must connect \"Eastoft\" with the population figure and the 2011 census. Since the documents do not explicitly state Eastoft is part of North Lincolnshire, the query should focus on the village name and the population data to retrieve relevant documents.  \n\n### query:  \n\"Eastoft 2011 population 167,446\""
+}

@@ -1,0 +1,1509 @@
+HoverAdapter.evaluate elapsed: 91.59s (batch=150)
+HoverAdapter.evaluate elapsed: 110.41s (batch=300)
+Iteration 0: Base program full valset score: 0.28
+Iteration 1: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 11.87s (batch=3)
+Iteration 1: Proposed new text for instruction_prompt: Given a claim and a set of documents, write a query to retrieve documents that directly support the claim. Your query must:  
+1. **Explicitly include all key terms** from the claim (e.g., names, entities, specific phrases) to ensure relevance.  
+2. **Account for synonyms, alternative names, or related terms** (e.g., "Skittles" vs. "Skittles confectionery," "Bruce Poole" vs. "D. Bruce Poole") to capture variations in document phrasing.  
+3. **Use Boolean operators (AND, OR, NOT)** to structure the query, prioritizing precise connections (e.g., "manufacturer AND (Skittles OR Skittles confectionery) AND (headquartered OR HQ)").  
+4. **Avoid vague phrasing** (e.g., "What is..." or "Find...") and instead use search terms that align with document content (e.g., "manufacturer" + "Skittles" + "headquartered").  
+5. **Prioritize named entities** (e.g., "Kathleen Matthews," "Maryland Democratic Party") and explicitly link them to the claim’s context (e.g., "former boss" or "current chair").  
+
+### reasoning:  
+The claim’s validity depends on confirming specific relationships (e.g., ownership, role, location) between entities. Documents may use alternative terms or phrasing (e.g., "reopened" vs. "reopened by," "former boss" vs. "previous leader"). The query must balance precision (to avoid irrelevant results) and flexibility (to capture document variations). Including all explicit terms from the claim, along with synonyms or related entities, ensures comprehensive retrieval.  
+
+### query:  
+<your query here>
+HoverAdapter.evaluate elapsed: 16.57s (batch=3)
+Iteration 1: New subsample score 0 is not better than old score 1, skipping
+Iteration 2: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 16.51s (batch=3)
+Iteration 2: Proposed new text for instruction_prompt: ### Task Instruction  
+Given a claim and a set of documents, write a query to retrieve documents that **directly or indirectly support the claim**. Your query must:  
+1. **Extract all explicit and implicit elements** from the claim (e.g., names, dates, titles, relationships, roles, or specific terms).  
+2. **Incorporate these elements** into the query using precise terms, including exact titles (e.g., "Planes, Trains and Automobiles"), full names (e.g., "John Candy"), and specific attributes (e.g., "1987 Canadian comedy film").  
+3. **Account for indirect connections** (e.g., if the claim mentions a role, include the character name and associated works; if it references a stake, include the percentage and entity).  
+4. **Use Boolean operators** (e.g., `AND`, `OR`, `NOT`) to combine terms if necessary, ensuring the query captures both direct and contextual matches.  
+5. **Avoid vague phrasing** (e.g., "franchise carrier" without specifying attributes like "British Airways livery" or "OR Tambo International Airport").  
+6. **Prioritize specificity** to avoid missing documents that contain exact matches (e.g., "The Lay of the Land" or "Richard Ford").  
+
+### Example Guidance  
+If the claim states:  
+- "A Californian author wrote *The Lay of the Land*. This author has more scope of profession than Robert E. Howard."  
+The query should include terms like `"The Lay of the Land" AND Californian AND author AND Robert E. Howard` to explicitly target the book, location, and comparison.  
+
+### Reasoning Format  
+### reasoning: <Explain how the query addresses the claim by incorporating specific terms, relationships, and indirect connections from the documents.>  
+### query: <Construct a precise query using the elements from the claim and documents, including exact titles, names, and attributes.>  
+```
+HoverAdapter.evaluate elapsed: 21.37s (batch=3)
+Iteration 2: New subsample score 1 is not better than old score 1, skipping
+Iteration 3: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 19.76s (batch=3)
+Iteration 3: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps:  
+
+1. **Break Down the Claim**: Identify the key components of the claim (e.g., specific names, dates, relationships, or attributes). For example, if the claim involves a composer, their works, and a singer, separate these elements.  
+2. **Analyze the Documents**: Check the documents for explicit mentions of each component. If a component is not directly stated, infer whether it can be deduced from context (e.g., "Cardillac is a three-act opera" vs. "Don Giovanni's act structure is unclear").  
+3. **Formulate the Query**:  
+   - Use precise terms (e.g., IATA/ICAO codes, full names, exact dates) to target relevant documents.  
+   - If a component is ambiguous (e.g., "a singer with four books written about her"), include alternative phrasing (e.g., "singer associated with John Ardoin's 1870s writings") or broader terms (e.g., "singer linked to Vincenzo Bellini's repertoire").  
+   - Prioritize explicit matches (e.g., "Vilnius Airport (VNO, EYVI)") over inferred connections.  
+4. **Account for Domain-Specific Knowledge**:  
+   - Recognize niche details (e.g., "Cardillac's three acts," "Crotone Airport's closure in 2016," or "Bellini's long-flowing melodic lines").  
+   - If a document references a related entity (e.g., "Maria Callas" in Example 2), explicitly include such names in the query if they are plausible but not directly mentioned.  
+5. **Iterate if Necessary**: If initial results are incomplete, refine the query by adding terms (e.g., "AND" clauses, synonyms, or contextual keywords) to capture all relevant evidence.  
+
+Respond with your reasoning and the query, formatted as:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 20.16s (batch=3)
+Iteration 3: New subsample score 0 is not better than old score 2, skipping
+Iteration 4: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 17.49s (batch=3)
+Iteration 4: Proposed new text for instruction_prompt: Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must:  
+1. **Prioritize exact matches** from the claim (e.g., specific names, titles, or facts) and **avoid assumptions** not explicitly stated in the documents.  
+2. **Break down the claim into distinct components** (e.g., "X was written by Y" and "Y has more albums than Z") and ensure each part is addressed in the query.  
+3. **Avoid unsupported comparisons** (e.g., career duration, numerical rankings) unless the documents explicitly provide the required data.  
+4. **Include synonyms or alternative terms** if the documents mention variations (e.g., "My Morning Jacket" vs. "My Animal" if contextually linked).  
+5. **Highlight gaps** in the documents by noting missing evidence (e.g., "no document confirms X's career duration").  
+
+### Example:  
+**Claim**: "Good Enough is a rock song written by a lead vocalist and produced by Dave Fortman. The lead vocalist had a longer career than Jimi Hendrix."  
+**Query**: "Good Enough AND (written by lead vocalist) AND (produced by Dave Fortman) AND (lead vocalist career duration > Jimi Hendrix career duration)"  
+**Reasoning**: The query explicitly checks for the song's attributes and the career comparison, but notes that the documents may lack data on career duration.  
+
+### Final Output Format:  
+### reasoning: <Your reasoning here, including how the query addresses the claim and documents>  
+### query: <Your query here, using exact terms, synonyms, or structured comparisons as needed>
+HoverAdapter.evaluate elapsed: 21.78s (batch=3)
+Iteration 4: New subsample score 1 is not better than old score 1, skipping
+Iteration 5: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 15.10s (batch=3)
+Iteration 5: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Identify Key Entities and Relationships**: Extract all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim.  
+2. **Prioritize Specific Terms**: Focus on specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon"). These often link to critical evidence.  
+3. **Include Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query to capture documents that explicitly state the connection.  
+4. **Avoid Overgeneralization**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms like "Phil Silvers" or "Purple Rain (album)" to target relevant documents.  
+5. **Test for Missing Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked.  
+
+**Example Adjustments**:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>
+HoverAdapter.evaluate elapsed: 15.32s (batch=3)
+Iteration 5: New subsample score 2 is better than old score 0. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 73.87s (batch=150)
+HoverAdapter.evaluate elapsed: 114.04s (batch=300)
+Iteration 5: New program is on the linear pareto front
+Iteration 5: Full valset score for new program: 0.38666666666666666
+Iteration 5: Full testset score for new program: 0.42
+Iteration 5: Full train_val score for new program: 0.38666666666666666
+Iteration 5: Individual valset scores for new program: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+Iteration 5: New valset pareto front scores: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0]
+Iteration 5: Full valset pareto front score: 0.4266666666666667
+Iteration 5: Updated valset pareto front programs: [{0}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {1}, {0}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0}, {0, 1}, {0, 1}]
+Iteration 5: Best valset aggregate score so far: 0.38666666666666666
+Iteration 5: Best program as per aggregate score on train_val: 1
+Iteration 5: Best program as per aggregate score on valset: 1
+Iteration 5: Best score on valset: 0.38666666666666666
+Iteration 5: Best score on train_val: 0.38666666666666666
+Iteration 5: Linear pareto front program index: 1
+Iteration 5: New program candidate index: 1
+Iteration 6: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 15.27s (batch=3)
+Iteration 6: Proposed new text for instruction_prompt: ### Instruction
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target key elements of the claim (e.g., names, titles, dates, relationships) and include domain-specific terminology or contextual clues that may not be immediately obvious. For example:  
+- If the claim involves a person's family member, explicitly mention the relationship (e.g., "father," "mother") and the birthdate.  
+- If the claim references a film or title, include the exact name of the work and its release year if available.  
+- If the claim links multiple entities (e.g., a person appearing in two films), ensure the query specifies the overlapping element (e.g., "actor from [Film A] and [Film B]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "TCW Tag Team Championship winner," "father born on May 5, 1939").  
+2. **Prioritize specificity** by including exact names, titles, or dates from the claim.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) that may require deeper contextual filtering.  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent").  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include "Scott Anton & Erik Watts" (from the documents) and their familial relationships.  
+- For film claims, specify the exact title (e.g., "The Rescuers") and release year (e.g., "1977") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query.  
+
+### Task  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 14.01s (batch=3)
+Iteration 6: New subsample score 1 is better than old score 0. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 52.21s (batch=150)
+HoverAdapter.evaluate elapsed: 98.24s (batch=300)
+Iteration 6: New program is on the linear pareto front
+Iteration 6: Full valset score for new program: 0.41333333333333333
+Iteration 6: Full testset score for new program: 0.41
+Iteration 6: Full train_val score for new program: 0.41333333333333333
+Iteration 6: Individual valset scores for new program: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+Iteration 6: New valset pareto front scores: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0]
+Iteration 6: Full valset pareto front score: 0.5066666666666667
+Iteration 6: Updated valset pareto front programs: [{0, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1, 2}, {0, 1}, {1}, {0}, {0, 1, 2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1}, {1}, {2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0}, {1}, {2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {2}, {1, 2}, {0, 1, 2}, {2}, {1, 2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1}, {0, 1, 2}, {1, 2}, {0, 1, 2}, {0, 1}, {0, 1, 2}, {0, 1, 2}, {0}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1, 2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1, 2}, {0, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1, 2}, {0, 1, 2}, {1}, {2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {1, 2}, {2}, {0, 1, 2}, {0, 1, 2}, {1}, {0, 1, 2}, {2}, {2}, {0, 1, 2}, {1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0, 1, 2}, {0}, {0, 1, 2}, {0, 1, 2}]
+Iteration 6: Best valset aggregate score so far: 0.41333333333333333
+Iteration 6: Best program as per aggregate score on train_val: 2
+Iteration 6: Best program as per aggregate score on valset: 2
+Iteration 6: Best score on valset: 0.41333333333333333
+Iteration 6: Best score on train_val: 0.41333333333333333
+Iteration 6: Linear pareto front program index: 2
+Iteration 6: New program candidate index: 2
+Iteration 7: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 23.89s (batch=3)
+Iteration 7: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to ensure comprehensive and accurate results:  
+
+1. **Identify Key Entities and Relationships**:  
+   - Extract all named entities (people, organizations, products, locations, etc.) and relationships (e.g., "manufacturer of," "directed," "star of") from the claim.  
+   - Consider synonyms, alternative names, or common aliases for these entities (e.g., "Skittles" might be linked to "Mars Incorporated").  
+
+2. **Analyze Document Content**:  
+   - Look for documents that explicitly mention the entities or relationships in the claim.  
+   - Identify indirect connections (e.g., a document may reference a company’s headquarters without explicitly naming the company).  
+   - Check for contextual links (e.g., a TV series mentioned in a film’s description).  
+
+3. **Formulate the Query**:  
+   - Use logical operators (e.g., "AND," "OR") to combine terms for precision.  
+   - Include both direct and indirect references (e.g., "Nike logo" AND "Dan Wieden" OR "Just Do It").  
+   - Specify formats (e.g., "film," "TV series") if the claim references specific types of media.  
+   - Prioritize documents that explicitly state numerical values, locations, or ownership details (e.g., "Swoosh value" or "headquarters in Kansas").  
+
+4. **Avoid Narrow Interpretations**:  
+   - Do not assume exact terminology; account for variations (e.g., "Thick as Thieves" might refer to a film, TV series, or book).  
+   - Include related terms (e.g., "Morgan Freeman" for a film’s star, or "Harry Booth" for a director).  
+
+5. **Structure the Output**:  
+   - **Reasoning**: Explain how the query addresses the claim, including entity relationships, synonyms, and contextual clues.  
+   - **Query**: Use precise, searchable terms that capture all possible relevant documents.  
+
+Example:  
+Claim: "The logo that appears alongside the slogan Dan Wieden coined has a value of $26 billion."  
+Query: "Nike Swoosh logo value $26 billion" OR "Dan Wieden slogan Nike logo worth"
+HoverAdapter.evaluate elapsed: 22.12s (batch=3)
+Iteration 7: New subsample score 0 is not better than old score 1, skipping
+Iteration 8: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 9.09s (batch=3)
+Iteration 8: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Identify All Explicit and Implicit Entities**: Extract **all named entities** (e.g., people, bands, albums, titles) **explicitly mentioned in the claim** and **inferential entities** (e.g., "cousin breeds," "collaborators," "friends") based on relationships described. For example, if the claim mentions "X's cousin," include "X" and "cousin" in the query.  
+2. **Prioritize Exact Terms from Documents**: Use **exact terms** directly from the documents, such as **specific titles** (e.g., "The Wild Bunch"), **full names** (e.g., "Ann Wilson"), **unique descriptors** (e.g., "Purple Rain (album)"), and **specific years** (e.g., "1984") to avoid overgeneralization. Avoid vague terms like "artists" unless the documents explicitly use them.  
+3. **Include Indirect Connections Explicitly**: If the claim references a relationship (e.g., "cousin of," "collaborated with"), **explicitly name the associated entity** in the query. For example, for "X's cousin," include both "X" and "cousin" to capture documents that explicitly state the connection.  
+4. **Test for Secondary Details**: Ensure the query includes **secondary details** from the claim (e.g., song titles, years, specific roles) that might be in the documents but not directly tied to the primary claim. For example, include "1984" for a compilation album released in that year.  
+5. **Avoid Missing Contextual Entities**: If the claim includes **entities not directly in the documents** (e.g., "Moses Tyson Jr." or "Sly Stone"), **include all related terms** from the claim to ensure coverage. For instance, if the claim mentions "X's cousin," include "X" even if the documents don’t mention it explicitly.  
+
+**Example Adjustments**:  
+- Instead of "Mary Ramsey" AND "artists," use "Mary Ramsey" AND ("Jackson Browne" OR "Goo Goo Dolls") to target specific collaborations.  
+- For a claim about a breed's cousin, include all cousin breeds explicitly (e.g., "German Shorthaired Pointer" OR "German Wirehaired Pointer") and specify their development location.  
+- When a claim references a relationship (e.g., "cousin of"), include both the entity and the relationship (e.g., "Moses Tyson Jr." AND "cousin" AND "Mary Ramsey").  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>  
+```  
+
+**Key Niche Insights for Future Use**:  
+- **Relationships**: Always explicitly name entities linked by relationships (e.g., "cousin," "collaborated with") even if the documents don’t directly mention the exact entity.  
+- **Secondary Details**: Include specific years, song titles, or roles (e.g., "lead singer") to avoid missing documents that might otherwise be overlooked.  
+- **Overgeneralization Avoidance**: Replace vague terms like "artists" with specific names (e.g., "Jackson Browne") to ensure precision.  
+- **Entity Inference**: If the claim mentions a secondary entity (e.g., "Moses Tyson Jr.'s cousin"), include both the primary entity (e.g., "Moses Tyson Jr.") and the relationship (e.g., "cousin") in the query.
+HoverAdapter.evaluate elapsed: 9.21s (batch=3)
+Iteration 8: New subsample score 1 is not better than old score 1, skipping
+Iteration 9: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 14.88s (batch=3)
+Iteration 9: Proposed new text for instruction_prompt: Given a claim and a set of documents, write a query to retrieve documents that **explicitly or implicitly support the claim**. Your query must:  
+1. **Incorporate both explicit and implicit terms** from the claim (e.g., names, attributes, relationships) and documents (e.g., domain-specific terminology, contextual clues).  
+2. **Use logical operators (AND/OR/NOT)** to combine terms, ensuring specificity while avoiding over-restriction.  
+3. **Account for domain-specific knowledge** (e.g., "bass voice" for vocal ranges, "IATA codes" for airports, "Surrealist movement" for literary contexts) to capture nuanced connections.  
+4. **Prioritize terms that resolve ambiguities** (e.g., "ceased operations in 2015" for time-sensitive claims, "country" for national origin claims).  
+5. **Test your query against the provided documents** to ensure it retrieves all relevant evidence, including documents that may contain indirect or implicit support (e.g., "Georges Bataille" in Example 3).  
+
+### Reasoning structure:  
+- Identify the claim's key components (subject, attributes, relationships).  
+- Map these to explicit terms in the documents and infer implicit terms (e.g., "bass" → "vocal range").  
+- Structure the query to combine terms logically, ensuring it captures all relevant evidence.  
+- Reflect on any missed documents and adjust the query to include domain-specific or contextual terms.  
+
+### Query format:  
+Include terms from the claim, documents, and inferred domain knowledge, using logical operators to balance specificity and coverage.  
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```
+HoverAdapter.evaluate elapsed: 22.21s (batch=3)
+Iteration 9: New subsample score 1 is better than old score 0. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 82.87s (batch=150)
+HoverAdapter.evaluate elapsed: 153.71s (batch=300)
+Iteration 9: Full valset score for new program: 0.36
+Iteration 9: Full testset score for new program: 0.36333333333333334
+Iteration 9: Full train_val score for new program: 0.36
+Iteration 9: Individual valset scores for new program: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+Iteration 9: New valset pareto front scores: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0]
+Iteration 9: Full valset pareto front score: 0.54
+Iteration 9: Updated valset pareto front programs: [{0, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 2}, {0, 1}, {1}, {0, 3}, {0, 1, 2, 3}, {1, 2, 3}, {3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2}, {3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1}, {1}, {2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 3}, {1}, {2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {2}, {1, 2, 3}, {0, 1, 2, 3}, {2, 3}, {1, 2}, {1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1}, {0, 1, 2, 3}, {1, 2, 3}, {0, 1, 2, 3}, {0, 1, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {2}, {1, 2}, {0, 1, 2, 3}, {0, 1, 2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 2}, {1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 2, 3}, {0, 2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 2, 3}, {0, 1, 2, 3}, {1}, {2}, {1, 2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2}, {0, 1, 2, 3}, {0, 1, 2, 3}, {1, 2}, {2, 3}, {3}, {0, 1, 2, 3}, {1}, {0, 1, 2, 3}, {2}, {2, 3}, {0, 1, 2, 3}, {1, 2, 3}, {0, 1, 2, 3}, {3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0, 1, 2, 3}, {0}, {0, 1, 2, 3}, {0, 1, 2, 3}]
+Iteration 9: Best valset aggregate score so far: 0.41333333333333333
+Iteration 9: Best program as per aggregate score on train_val: 2
+Iteration 9: Best program as per aggregate score on valset: 2
+Iteration 9: Best score on valset: 0.41333333333333333
+Iteration 9: Best score on train_val: 0.41333333333333333
+Iteration 9: Linear pareto front program index: 2
+Iteration 9: New program candidate index: 3
+Iteration 10: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 39.59s (batch=3)
+Iteration 10: Proposed new text for instruction_prompt: ### Task: Retrieve Documents Supporting a Claim with Explicit and Implicit Connections  
+**Objective**: Given a claim and a set of documents, construct a query that retrieves documents **explicitly or implicitly supporting the claim**, ensuring specificity while capturing nuanced domain knowledge.  
+
+---
+
+### **Instructions for the Assistant**  
+1. **Analyze the Claim**:  
+   - Identify **key components**: subject, attributes (e.g., time, role, relationships), and implicit connections (e.g., "prequel" for temporal links, "vocal range" for attributes).  
+   - Prioritize **domain-specific terminology** (e.g., "IATA codes" for airports, "Surrealist movement" for literary contexts, "bass voice" for vocal ranges) to resolve ambiguities.  
+
+2. **Map to Documents**:  
+   - Extract **explicit terms** (e.g., names, dates, titles) and **implicit terms** (e.g., inferred roles, relationships, contextual clues).  
+   - Account for **nuanced connections** (e.g., "ceased operations in 2015" for time-sensitive claims, "country" for national origin).  
+
+3. **Structure the Query**:  
+   - Use **logical operators (AND/OR/NOT)** to balance specificity and coverage.  
+     - Use `AND` to enforce mandatory terms (e.g., "Disney" + "1950s").  
+     - Use `OR` for synonyms/alternative phrasing (e.g., "Walt Disney Productions" OR "Disney").  
+     - Use `NOT` to exclude irrelevant terms (if needed).  
+   - Include **domain-specific terms** to capture implicit support (e.g., "prequel" to link films, "faculty member" for academic roles).  
+   - Test the query against the documents to ensure it retrieves **all relevant evidence**, including indirect or implicit support (e.g., "Georges Bataille" in Example 3).  
+
+4. **Refine for Coverage**:  
+   - Reflect on **missed documents** and adjust the query to include:  
+     - Additional terms (e.g., "Dave Evans" in Example 1, "Matthew Bailes" in Example 2).  
+     - Contextual clues (e.g., "Swinburne University" for Example 2).  
+     - Implicit relationships (e.g., "prequel" for Example 3).  
+
+---
+
+### **Query Format**  
+Include terms from the claim, documents, and inferred domain knowledge, using logical operators to balance specificity and coverage.  
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+
+---
+
+### **Key Niche Domain Knowledge to Include**  
+- **Music/Entertainment**:  
+  - "Bass voice" for vocal ranges, "solo studio album" for releases, "prequel" for film relationships.  
+- **Academia/Research**:  
+  - "Faculty member" for roles, "university" for institutional links, "research centre" for locations.  
+- **Technology/Supercomputing**:  
+  - "IATA codes" for airports, "supercomputing infrastructure" for facilities, "SERC" for specific centers.  
+- **Literary/Artistic Contexts**:  
+  - "Surrealist movement" for artistic movements, "anthropomorphic" for character traits.  
+
+**Generalizable Strategy**: Focus on **explicit terms** for direct matches, **implicit terms** for contextual links, and **domain-specific knowledge** to resolve ambiguities. Always test and refine queries to capture all relevant evidence, even indirect support.
+HoverAdapter.evaluate elapsed: 10.62s (batch=3)
+Iteration 10: New subsample score 1 is not better than old score 1, skipping
+Iteration 11: Selected program 0 score: 0.28
+HoverAdapter.evaluate elapsed: 16.55s (batch=3)
+Iteration 11: Proposed new text for instruction_prompt: Given a claim and a set of documents, generate a query to retrieve documents that support the claim. The query must:  
+1. **Account for ambiguity**: Use synonyms, related terms, or alternative phrasings for ambiguous terms in the claim (e.g., "love song" → "romantic song," "Not Now John" → "Love Me Now").  
+2. **Handle multi-part claims**: For claims with multiple components (e.g., "X and Y are both musicians"), structure the query to explicitly retrieve evidence for each part (e.g., "X is a musician" AND "Y is a musician").  
+3. **Prioritize exact matches**: Include exact terms from the claim (e.g., song titles, names) as primary search terms, but supplement with broader terms if needed.  
+4. **Address absence of evidence**: If the claim includes a negation (e.g., "Z was not released in 2001"), ensure the query excludes documents mentioning Z in the specified timeframe.  
+5. **Leverage document context**: Use document-specific details (e.g., "Music for Dead Birds" for the album "And then it rained for seven days") to avoid missing indirect references.  
+6. **Use logical operators**: Combine terms with AND/OR/NOT to refine results (e.g., "Sandi Simcha DuBowski directed a 2001 documentary" AND NOT "Zeitgeist released 2001").  
+
+### Example:  
+**Claim**: "The Wolfhounds band has more members than the group whose album is 'And then it rained for seven days'."  
+**Query**: "Wolfhounds band members count" AND "Music for Dead Birds group members count"  
+
+### Reasoning:  
+The query explicitly targets both groups (Wolfhounds and Music for Dead Birds) and focuses on member counts, addressing the claim's comparison. It avoids ambiguity by using exact group names and specific terms like "members count."
+HoverAdapter.evaluate elapsed: 20.92s (batch=3)
+Iteration 11: New subsample score 0 is not better than old score 0, skipping
+Iteration 12: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 28.27s (batch=3)
+Iteration 12: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy and comprehensiveness:  
+
+1. **Extract Core Entities and Relationships**: Identify all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim. Prioritize specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon").  
+
+2. **Incorporate Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query. For example, if the claim mentions a "friend of X," include "X" and "friend" in the query to capture documents that explicitly state the connection.  
+
+3. **Expand for Secondary Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked. For example, if the claim mentions a film's year, include the year in the query to narrow results.  
+
+4. **Leverage Cross-Document Links**: Look for indirect connections between entities across documents. For instance, if the claim mentions "Rachelle Beinart" and "The Comedy of Errors," check if other documents link "Rachelle Beinart" to a film or play that also involves an actress trained in the Oxford University Dramatic Society. Include terms like "related works" or "connected entities" in the query if applicable.  
+
+5. **Balance Specificity and Generality**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms (e.g., "Phil Silvers," "Purple Rain (album)") to target relevant documents. However, include broader terms (e.g., "film," "play") if they are explicitly mentioned in the documents to capture indirect links.  
+
+6. **Test for Overlooked Entities**: If the query misses documents (e.g., "Gene Kelly" in Example 1), revisit the claim and documents to identify additional entities or relationships that might have been overlooked. For example, check if a document mentions a film that shares a title or collaborator with the main entity.  
+
+7. **Iterate and Refine**: If the initial query misses relevant documents, adjust the query by adding terms like "related," "connected," "collaborated with," or "related works" to capture indirect links. For example, if the claim mentions "Ice Princess" and "Kirsten Olson," include "Ice Princess" and "Kirsten Olson" explicitly in the query.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+
+### reasoning:  
+<Your reasoning here>  
+### query:  
+<Your refined query here>
+HoverAdapter.evaluate elapsed: 20.31s (batch=3)
+Iteration 12: New subsample score 1 is better than old score 0. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 65.30s (batch=150)
+HoverAdapter.evaluate elapsed: 114.66s (batch=300)
+Iteration 12: Full valset score for new program: 0.38
+Iteration 12: Full testset score for new program: 0.4066666666666667
+Iteration 12: Full train_val score for new program: 0.38
+Iteration 12: Individual valset scores for new program: [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+Iteration 12: New valset pareto front scores: [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0]
+Iteration 12: Full valset pareto front score: 0.58
+Iteration 12: Updated valset pareto front programs: [{0, 2, 3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1, 3, 4}, {0, 1, 2, 3, 4}, {4}, {3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1, 2, 4}, {0, 1, 4}, {1, 4}, {0, 3, 4}, {0, 1, 2, 3, 4}, {1, 2, 3, 4}, {3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 4}, {3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1}, {1}, {2}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3}, {2}, {4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 3}, {1}, {2, 3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {2}, {1, 2, 3, 4}, {0, 1, 2, 3, 4}, {2, 3}, {1, 2, 4}, {1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {2}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1}, {0, 1, 2, 3, 4}, {1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {4}, {2}, {1, 2}, {0, 1, 2, 3, 4}, {0, 1, 2, 4}, {4}, {0, 1, 2, 3, 4}, {1, 2}, {1, 2, 3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {2, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {4}, {1, 2, 3, 4}, {0, 2, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1}, {2}, {1, 2}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {1, 2, 4}, {2, 3, 4}, {3}, {0, 1, 2, 3, 4}, {1}, {0, 1, 2, 3, 4}, {2}, {2, 3}, {0, 1, 2, 3, 4}, {1, 2, 3}, {0, 1, 2, 3, 4}, {3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}, {0, 4}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}]
+Iteration 12: Best valset aggregate score so far: 0.41333333333333333
+Iteration 12: Best program as per aggregate score on train_val: 2
+Iteration 12: Best program as per aggregate score on valset: 2
+Iteration 12: Best score on valset: 0.41333333333333333
+Iteration 12: Best score on train_val: 0.41333333333333333
+Iteration 12: Linear pareto front program index: 2
+Iteration 12: New program candidate index: 4
+Iteration 13: Selected program 4 score: 0.38
+HoverAdapter.evaluate elapsed: 17.18s (batch=3)
+Iteration 13: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy and comprehensiveness:  
+
+1. **Extract Core Entities and Relationships**: Identify all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim. Prioritize specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon"). **Ensure all entities in the claim are explicitly included**, even if they are not directly linked in the documents.  
+
+2. **Incorporate Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query. For example, if the claim mentions a "friend of X," include "X" and "friend" in the query to capture documents that explicitly state the connection. **Check for indirect links across documents**, such as shared collaborators or thematic connections.  
+
+3. **Expand for Secondary Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked. For example, if the claim mentions a film's year, include the year in the query to narrow results. **Include alternative terms or synonyms** if the documents use different phrasing (e.g., "film" vs. "movie").  
+
+4. **Leverage Cross-Document Links**: Look for indirect connections between entities across documents. For instance, if the claim mentions "Rachelle Beinart" and "The Comedy of Errors," check if other documents link "Rachelle Beinart" to a film or play that also involves an actress trained in the Oxford University Dramatic Society. Include terms like "related works" or "connected entities" in the query if applicable. **Prioritize documents that explicitly mention the exact terms from the claim**, even if they are not directly linked.  
+
+5. **Balance Specificity and Generality**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms (e.g., "Phil Silvers," "Purple Rain (album)") to target relevant documents. However, include broader terms (e.g., "film," "play") if they are explicitly mentioned in the documents to capture indirect links. **If the claim includes a genre or category (e.g., "teen drama"), include it explicitly** to align with the documents' structure.  
+
+6. **Test for Overlooked Entities**: If the query misses documents (e.g., "Gene Kelly" in Example 1), revisit the claim and documents to identify additional entities or relationships that might have been overlooked. For example, check if a document mentions a film that shares a title or collaborator with the main entity. **Consider documents that mention the same entity in different contexts** (e.g., "Madison Square Garden" in the context of a team vs. a venue).  
+
+7. **Iterate and Refine**: If the initial query misses relevant documents, adjust the query by adding terms like "related," "connected," "collaborated with," or "related works" to capture indirect links. For example, if the claim mentions "Ice Princess" and "Kirsten Olson," include "Ice Princess" and "Kirsten Olson" explicitly in the query. **If the claim contains conflicting information (e.g., a film title mismatch), prioritize the claim's structure** while including all entities and relationships to ensure alignment with the documents.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+
+### reasoning:  
+<Your reasoning here>  
+### query:  
+<Your refined query here>
+HoverAdapter.evaluate elapsed: 38.17s (batch=3)
+Iteration 13: New subsample score 1 is not better than old score 1, skipping
+Iteration 14: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 19.76s (batch=3)
+Iteration 14: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target **all named entities, titles, dates, relationships, and domain-specific terminology** from the claim, including inferred connections or indirect links. Follow these steps:  
+
+1. **Decompose the claim** into distinct components (e.g., names, titles, dates, roles, relationships) and map them to the documents.  
+2. **Prioritize specificity**:  
+   - Include **exact names** (e.g., "Delmer Daves," "Jean-Pierre Jeunet"), **titles** (e.g., "film director," "congressional representative"), and **dates** (e.g., "1934," "1990").  
+   - Use **domain-specific terminology** (e.g., "co-writer," "adjacent to," "replaced by") to align with document phrasing.  
+3. **Account for indirect connections**:  
+   - If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), **infer potential connections** and include them explicitly (e.g., "father of Erik Watts").  
+   - For overlapping entities (e.g., a person appearing in two works), specify the **shared element** (e.g., "actor in [Film A] and [Film B]").  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed. Instead, use **precise keywords** (e.g., "release date," "parent," "adjacent to," "replaced by").  
+5. **Structure the query** to mirror the documents’ phrasing (e.g., "located at," "themed area," "replaced by") to improve retrieval accuracy.  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include **names** (e.g., "Scott Anton & Erik Watts") and **relationships** (e.g., "father born on May 5, 1939").  
+- For film claims, specify the **exact title** (e.g., "The Rescuers") and **release year** (e.g., "1977").  
+- For congressional claims, include **district numbers**, **representatives**, and **temporal relationships** (e.g., "represented Illinois's 15th district before the 20th").  
+
+**Key Domain-Specific Guidance**:  
+- **Film/attraction claims**: Include **exact titles**, **locations** (e.g., "Universal Studios Hollywood"), and **relationships** (e.g., "adjacent to," "replaced by").  
+- **Political/legislative claims**: Specify **district numbers**, **representatives**, and **census-related details** (e.g., "eliminated as a result of the 2000 Census").  
+- **Family/relationship claims**: Explicitly mention **roles** (e.g., "father," "mother") and **dates** (e.g., "born on May 5, 1939") to avoid ambiguity.  
+
+**Task**  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 23.76s (batch=3)
+Iteration 14: New subsample score 1 is not better than old score 1, skipping
+Iteration 15: Selected program 4 score: 0.38
+HoverAdapter.evaluate elapsed: 18.93s (batch=3)
+Iteration 15: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy and comprehensiveness:  
+
+1. **Extract Core Entities and Relationships**: Identify all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim. Prioritize specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon"). **If a term is ambiguous or not explicitly present in the documents, consider alternative phrasings or related terms** (e.g., "Mulholland Falls" → "director of Mulholland Falls" if the film’s director is not directly named).  
+
+2. **Incorporate Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query. For example, if the claim mentions a "friend of X," include "X" and "friend" in the query to capture documents that explicitly state the connection. **If a key entity is missing from the documents, expand the query to include related terms** (e.g., "Galleria Corporate Center" → "near Galleria Corporate Center" or "shopping mall near Galleria Corporate Center").  
+
+3. **Expand for Secondary Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked. For example, if the claim mentions a film’s year, include the year in the query to narrow results. **If a document references a historical event or location not explicitly mentioned in the claim, include it as a contextual anchor** (e.g., "1519" for the start of a state’s recorded history).  
+
+4. **Leverage Cross-Document Links**: Look for indirect connections between entities across documents. For instance, if the claim mentions "Rachelle Beinart" and "The Comedy of Errors," check if other documents link "Rachelle Beinart" to a film or play that also involves an actress trained in the Oxford University Dramatic Society. Include terms like "related works" or "connected entities" in the query if applicable. **If a document contains a term not directly in the claim but is semantically linked (e.g., "Sundance Film Festival" for Robert Redford), include it to capture indirect evidence**.  
+
+5. **Balance Specificity and Generality**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms (e.g., "Phil Silvers," "Purple Rain (album)") to target relevant documents. However, include broader terms (e.g., "film," "play") if they are explicitly mentioned in the documents to capture indirect links. **If a document references a term not in the claim but is critical to the context (e.g., "historical records" for a state’s start date), include it to ensure comprehensive retrieval**.  
+
+6. **Test for Overlooked Entities**: If the query misses documents (e.g., "Gene Kelly" in Example 1), revisit the claim and documents to identify additional entities or relationships that might have been overlooked. For example, check if a document mentions a film that shares a title or collaborator with the main entity. **If a claim references a work not explicitly in the documents (e.g., "Mulholland Falls"), search for its director or related terms in the documents to infer connections**.  
+
+7. **Iterate and Refine**: If the initial query misses relevant documents, adjust the query by adding terms like "related," "connected," "collaborated with," or "related works" to capture indirect links. For example, if the claim mentions "Ice Princess" and "Kirsten Olson," include "Ice Princess" and "Kirsten Olson" explicitly in the query. **If a document contains a term that could be linked to the claim through contextual clues (e.g., "1519" for a state’s history), refine the query to include it as a secondary filter**.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+- For ambiguous terms (e.g., "Mulholland Falls"), include "director of Mulholland Falls" or "related works" to capture indirect evidence.  
+- For historical context (e.g., "1519"), include the year explicitly to ensure documents referencing the event are retrieved.  
+
+### reasoning:  
+<Your reasoning here>  
+### query:  
+<Your refined query here>
+HoverAdapter.evaluate elapsed: 20.18s (batch=3)
+Iteration 15: New subsample score 0 is not better than old score 0, skipping
+Iteration 16: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 12.67s (batch=3)
+Iteration 16: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Extract Specific Entities and Relationships**:  
+   - Identify **exact names** (e.g., full titles like "Boeing B-17 Flying Fortress," "Mellow Dubmarine," "Sandy and Beaver Canal") and **precise descriptors** (e.g., "1938 introduction," "Conroe North Houston Regional Airport") directly mentioned in the documents.  
+   - Explicitly link **entities** (e.g., "Douglas MacArthur" and "Boeing B-17 Flying Fortress") and **relationships** (e.g., "escape from the Philippines," "hangared at") to ensure the query captures direct connections.  
+
+2. **Prioritize Exact Phrases and Dates**:  
+   - Use **exact phrases** from the documents (e.g., "operational date," "decommissioned," "hangared at") to avoid ambiguity.  
+   - Include **specific dates** (e.g., "1938," "1971") or **locations** (e.g., "Little Beaver Creek," "Los Angeles Aqueduct") if they are critical to the claim.  
+
+3. **Avoid Overgeneralization**:  
+   - Replace vague terms like "heavy bomber" or "airport" with precise terms (e.g., "Boeing B-17 Flying Fortress," "Conroe North Houston Regional Airport").  
+   - Do not assume relationships; instead, explicitly name entities (e.g., "Del Davis" instead of "cover artist").  
+
+4. **Test for Secondary Details**:  
+   - If the claim includes secondary information (e.g., a song title, a specific year, or a location), ensure the query includes it to retrieve documents that might otherwise be overlooked.  
+
+5. **Use Document-Specific Language**:  
+   - Mirror phrasing from the documents (e.g., "featured on," "constructed in," "hangared at") to align with how entities are described in the source material.  
+
+### Example Adjustments:  
+- Instead of "Paul McCartney" AND "Peter and Gordon," use "Paul McCartney" AND "A World Without Love" AND "Peter and Gordon" to target the specific song.  
+- For a claim about a historical structure, include the exact name (e.g., "Tinkers Creek Aqueduct") and operational status (e.g., "decommissioned in 2007") to retrieve precise documents.  
+- When linking relationships, explicitly name entities (e.g., "Douglas MacArthur" AND "Boeing B-17 Flying Fortress") even if the claim only mentions a general connection.  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>
+HoverAdapter.evaluate elapsed: 12.70s (batch=3)
+Iteration 16: New subsample score 3 is not better than old score 3, skipping
+Iteration 17: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 13.65s (batch=3)
+Iteration 17: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target **all named entities, relationships, and domain-specific terminology** from the claim, even if they are not explicitly present in the documents. Prioritize **exact titles, dates, roles, and contextual clues** (e.g., film titles with release years, familial relationships with birthdates, or specific job titles) to ensure precision.  
+
+**Key Requirements**:  
+1. **Decompose the claim** into distinct components (e.g., "actor from [Film A] and [Film B]," "author's novel adapted into a 1982 film").  
+2. **Explicitly include all named entities** (e.g., "Jack Nicholson," "Blade Runner," "Philip K. Dick") and their **specific attributes** (e.g., "1982 release," "voice actor," "biographical crime film").  
+3. **Link entities through roles or relationships** (e.g., "director of [Film X] directed [Film Y]," "parent of [Person A] born on [Date]").  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent").  
+5. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) by specifying overlapping elements (e.g., "actor from [Film A] and [Film B]").  
+6. **Include domain-specific terminology** (e.g., "satirical news satire program," "biographical crime film") to align with document metadata or content.  
+
+**Example Adjustments**:  
+- If the claim references a film not in the documents (e.g., "Dirty O'Neil"), explicitly include it in the query to ensure alignment with the claim.  
+- For ambiguous terms (e.g., "Teamsters leader"), specify the exact role or title (e.g., "Jimmy Hoffa") and the film (e.g., "Hoffa") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query to guide retrieval.  
+
+**Generalizable Strategy**:  
+1. **List all elements from the claim**: Extract names, titles, dates, roles, and relationships.  
+2. **Map elements to document metadata**: Use exact titles, years, and roles to match documents.  
+3. **Incorporate inferred connections**: If a direct match is absent, include inferred links (e.g., "director of [Film X] directed [Film Y]") to guide retrieval.  
+4. **Use precise terminology**: Replace vague terms with specific keywords (e.g., "release year" instead of "around 1982").  
+5. **Test for completeness**: Ensure the query includes all claim elements, even if they are not explicitly present in the documents.  
+
+**Task**  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 9.38s (batch=3)
+Iteration 17: New subsample score 0 is not better than old score 0, skipping
+Iteration 18: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 14.14s (batch=3)
+Iteration 18: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Extract All Claim Entities**: Identify all entities explicitly mentioned in the claim (e.g., names, titles, locations, organizations) and relationships (e.g., "located in," "co-authored by," "headquartered in"). Even if an entity is not directly present in the documents, include it if it is part of the claim.  
+2. **Prioritize Exact Matches**: Use exact terms from the claim, such as full names, specific titles (*e.g., "SM City Cebu"*, *e.g., "Adventist World"*), and precise locations (*e.g., "Baltimore, Maryland"*), to avoid ambiguity. Avoid general terms like "magazine" or "shopping mall" unless the documents use them verbatim.  
+3. **Include Indirect Relationships**: If the claim references a relationship (e.g., "co-writer," "headquartered in"), explicitly include the connected entity in the query. For example, if the claim links a person to a work, include both the person’s name and the work’s title.  
+4. **Avoid Misleading Terms**: Do not include terms that contradict the documents (e.g., "Turkmenistan" in a claim about a Philippine location). If the claim contains an error, retain the erroneous term to ensure the query aligns with the claim’s phrasing, even if it leads to irrelevant documents.  
+5. **Test for Secondary Details**: If the claim includes secondary details (e.g., "4th largest shopping mall," "1994"), ensure these are explicitly included in the query to capture documents that might otherwise be overlooked.  
+
+**Example Adjustments**:  
+- For a claim about a location, include the exact city and country (*e.g., "Baltimore, Maryland"*) even if the documents only mention the city.  
+- If a claim incorrectly links an entity to a location (*e.g., "Metro Manila in Turkmenistan"*), retain the incorrect term in the query to ensure alignment with the claim, while also including precise terms (*e.g., "Galleria Corporate Center"*) to target relevant documents.  
+- When linking relationships, explicitly name entities (*e.g., "Jonathan Lynn"*) even if the claim only mentions a role (*e.g., "co-writer"*).  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>  
+```  
+
+**Key Niche Guidance**:  
+- **Entity Alignment**: Always include all entities from the claim, even if they are not explicitly present in the documents. This ensures the query reflects the claim’s exact phrasing.  
+- **Error Handling**: Retain incorrect terms in the query if the claim contains them (e.g., "Turkmenistan" for "Metro Manila"), as this preserves the claim’s context for document retrieval.  
+- **Secondary Detail Inclusion**: Secondary details (e.g., years, rankings) are critical for narrowing results and should be explicitly included to avoid missing relevant documents.
+HoverAdapter.evaluate elapsed: 26.09s (batch=3)
+Iteration 18: New subsample score 1 is not better than old score 1, skipping
+Iteration 19: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 30.98s (batch=3)
+Iteration 19: Proposed new text for instruction_prompt: ### Task: Generate a Query to Retrieve Documents Supporting a Claim  
+Given a claim and a set of documents, write a query to retrieve documents that **explicitly or implicitly support the claim**. Your query must:  
+1. **Incorporate all terms from the claim**, including **explicit terms (e.g., names, attributes, relationships)** and **implicit terms inferred from domain knowledge** (e.g., "bass voice" for vocal ranges, "IATA codes" for airports).  
+2. **Use logical operators (AND/OR/NOT)** to combine terms, ensuring specificity while avoiding over-restriction. Prioritize terms that resolve ambiguities (e.g., "ceased operations in 2015" for time-sensitive claims).  
+3. **Account for domain-specific knowledge** (e.g., "Surrealist movement" for literary contexts, "IATA codes" for airports) to capture nuanced connections, even if documents do not explicitly mention these terms.  
+4. **Include all terms from the claim**, even if they are not explicitly present in the documents, to ensure the query captures indirect or implicit support (e.g., "Krupa song" in Example 3).  
+5. **Test your query against the provided documents** to ensure it retrieves all relevant evidence, including documents that may contain indirect or implicit support (e.g., "Georges Bataille" in Example 3).  
+
+### Reasoning Structure:  
+- **Identify the claim's key components**: subject, attributes, relationships, and any domain-specific terms (e.g., "bass voice" for vocal ranges).  
+- **Map these to explicit terms in the documents** and **infer implicit terms** (e.g., "bass" → "vocal range").  
+- **Structure the query** to combine terms logically, ensuring it captures all relevant evidence, including documents that may contain indirect or implicit support.  
+- **Reflect on any missed documents**: adjust the query to include terms from the claim that were not explicitly present in the documents (e.g., "Young Doctors in Love" in Example 1) or domain-specific synonyms (e.g., "citrus" for "orange" in Example 3).  
+
+### Query Format:  
+Include terms from the claim, documents, and inferred domain knowledge, using logical operators to balance specificity and coverage.  
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+```  
+
+### Key Niche Domain-Specific Guidance:  
+- **Ambiguity resolution**: Use precise terms like "ceased operations in 2015" for time-sensitive claims or "country" for national origin claims.  
+- **Implicit connections**: For example, "Krupa (song)" in Example 3 requires including the term "Krupa" even if it is not explicitly linked to a drink in the documents.  
+- **Synonyms and context**: Use broader terms like "citrus" to capture implicit mentions of orange-flavored drinks (Example 3).  
+- **Document testing**: Always validate the query against the documents to ensure it retrieves all relevant evidence, even if some terms are not explicitly present.
+HoverAdapter.evaluate elapsed: 24.64s (batch=3)
+Iteration 19: New subsample score 1 is not better than old score 1, skipping
+Iteration 20: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 21.29s (batch=3)
+Iteration 20: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Extract All Named Entities and Relationships**: Identify all explicit named entities (e.g., people, works, titles) and relationships (e.g., "authored," "starred in," "collaborated with") from the claim. For example, if the claim mentions a film title, include it verbatim. If it references a relationship like "friend of," explicitly name the associated entity (e.g., "Lucille Ball") even if the claim only mentions a friend.  
+
+2. **Prioritize Specific Terms from Documents**: Focus on exact terms directly mentioned in the documents, such as full names, specific titles (e.g., "Purple Rain album," "The King of Chutzpah"), or unique descriptors. Avoid vague terms like "entertainer" or "album" unless the documents use them. For example, if a document refers to "Kalyanji–Anandji," use that exact term instead of "duo."  
+
+3. **Include Indirect Connections and Relationships**: If the claim references a relationship (e.g., "inspired by," "collaborated with"), explicitly mention the associated entity in the query. For example, if the claim states "Josh Flitter played 'The Iron Horse'," include both the actor's name and the role in the query.  
+
+4. **Avoid Overgeneralization and Assumptions**: Do not assume dates, years, or unmentioned details (e.g., "release date > 1978") unless explicitly stated in the documents. If the claim includes a secondary detail (e.g., a song title, a specific year), ensure the query includes it. For example, if the claim mentions "Young Shoulders" as a Booker Prize-winning novel, include the title and award name verbatim.  
+
+5. **Test for Missing Context and Flexibility**: If the claim references an entity not explicitly named (e.g., "an author"), ensure the query includes terms that might link to the entity in the documents. For example, if the claim mentions a novel title, include the title and search for associated authors or awards. If the documents mention an author's name (e.g., "John Wain"), include it explicitly.  
+
+6. **Handle Ambiguity and Confusion**: If the claim contains ambiguous terms (e.g., "The Iron Horse" could refer to a film or TV series), explicitly include both possibilities in the query. For example, search for "The Iron Horse (film)" and "The Iron Horse (TV series)" to capture all relevant documents.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>
+HoverAdapter.evaluate elapsed: 16.30s (batch=3)
+Iteration 20: New subsample score 1 is not better than old score 1, skipping
+Iteration 21: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 25.00s (batch=3)
+Iteration 21: Proposed new text for instruction_prompt: ### Instruction
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target all named entities, relationships, and domain-specific details mentioned in the claim, including but not limited to names, titles, dates, roles, and contextual clues. Avoid excluding entities unless explicitly instructed to do so, and ensure precision by using exact terminology (e.g., full names, specific titles, release years, or precise roles).  
+
+**Key Considerations**:  
+1. **Inclusive Precision**:  
+   - Explicitly include all named individuals, organizations, works, and dates mentioned in the claim.  
+   - If the claim references a relationship (e.g., "father," "co-founder," "voice actor"), specify the exact relationship and any associated attributes (e.g., birthdates, roles).  
+   - For indirect connections (e.g., a person’s involvement in multiple works), include overlapping elements (e.g., "actor in [Film A] and [Film B]").  
+
+2. **Domain-Specific Terminology**:  
+   - Use exact titles of works (e.g., "The Rescuers," "Sing Street") and their release years if available.  
+   - Include precise roles (e.g., "director," "producer," "screenwriter") and contextual terms (e.g., "co-founder of Troma Entertainment," "voice actor in [Anime Title]").  
+
+3. **Avoid Ambiguity**:  
+   - Replace vague terms like "related to" or "similar to" with precise keywords (e.g., "release date," "parent," "co-written by").  
+   - If the claim excludes an entity (e.g., "not producer Jay T. Wright"), explicitly mention the exclusion but prioritize including all other named entities.  
+
+4. **Handle Missing Information Strategically**:  
+   - If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query.  
+   - For claims involving indirect links (e.g., a person’s role in two films), ensure the query specifies the overlapping element (e.g., "actor from [Film A] and [Film B]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "TCW Tag Team Championship winner," "father born on May 5, 1939").  
+2. **Prioritize specificity** by including exact names, titles, or dates from the claim.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) that may require deeper contextual filtering.  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent").  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include "Scott Anton & Erik Watts" (from the documents) and their familial relationships.  
+- For film claims, specify the exact title (e.g., "The Rescuers") and release year (e.g., "1977") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query.  
+
+**Task**  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 20.83s (batch=3)
+Iteration 21: New subsample score 0 is not better than old score 1, skipping
+Iteration 22: Selected program 4 score: 0.38
+HoverAdapter.evaluate elapsed: 17.93s (batch=3)
+Iteration 22: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy and comprehensiveness:  
+
+1. **Extract Core Entities and Relationships**: Identify all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim. Prioritize specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon"). **If the claim includes a name variation (e.g., "E.B. Babcock" vs. "Stephen Moulton Babcock"), explicitly include both variants in the query** to account for potential typos or alternate spellings.  
+
+2. **Incorporate Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query. For example, if the claim mentions a "friend of X," include "X" and "friend" in the query to capture documents that explicitly state the connection. **If the claim involves taxonomic classifications (e.g., genus, family), include terms like "family name," "genus," or "taxonomic rank" to align with document-specific terminology**.  
+
+3. **Expand for Secondary Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked. For example, if the claim mentions a film's year, include the year in the query to narrow results. **When dealing with taxonomic claims, include related terms like "related genera" or "family classification" to capture indirect links**.  
+
+4. **Leverage Cross-Document Links**: Look for indirect connections between entities across documents. For instance, if the claim mentions "Rachelle Beinart" and "The Comedy of Errors," check if other documents link "Rachelle Beinart" to a film or play that also involves an actress trained in the Oxford University Dramatic Society. Include terms like "related works" or "connected entities" in the query if applicable. **For taxonomic claims, search for documents that mention overlapping genera, species, or classification hierarchies**.  
+
+5. **Balance Specificity and Generality**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms (e.g., "Phil Silvers," "Purple Rain (album)") to target relevant documents. However, include broader terms (e.g., "film," "play") if they are explicitly mentioned in the documents to capture indirect links. **For taxonomic claims, use precise genus/species names but also include broader terms like "Brassicaceae" or "family classification" if they appear in the documents**.  
+
+6. **Test for Overlooked Entities**: If the query misses documents (e.g., "Gene Kelly" in Example 1), revisit the claim and documents to identify additional entities or relationships that might have been overlooked. For example, check if a document mentions a film that shares a title or collaborator with the main entity. **For taxonomic claims, consider whether the documents mention related genera (e.g., "Crepis" in Example 2) or alternative classifications that could link to the claim**.  
+
+7. **Iterate and Refine**: If the initial query misses relevant documents, adjust the query by adding terms like "related," "connected," "collaborated with," or "related works" to capture indirect links. For example, if the claim mentions "Ice Princess" and "Kirsten Olson," include "Ice Princess" and "Kirsten Olson" explicitly in the query. **For taxonomic claims, refine the query by adding terms like "related genera," "family classification," or "taxonomic hierarchy" to ensure all relevant documents are retrieved**.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+- For taxonomic claims, include both the genus and family name (e.g., "Isatis" AND "Brassicaceae") and test variations like "E.B. Babcock" AND "Stephen Moulton Babcock" to account for name discrepancies.  
+
+### reasoning:  
+<Your reasoning here>  
+### query:  
+<Your refined query here>
+HoverAdapter.evaluate elapsed: 11.60s (batch=3)
+Iteration 22: New subsample score 2 is not better than old score 2, skipping
+Iteration 23: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 24.55s (batch=3)
+Iteration 23: Proposed new text for instruction_prompt: ### Task: Generate a Query to Retrieve Documents Supporting a Claim  
+Given a claim and a set of documents, write a query to retrieve documents that **explicitly or implicitly support the claim**. Your query must:  
+1. **Incorporate both explicit and implicit terms** from the claim (e.g., names, attributes, relationships) and documents (e.g., domain-specific terminology, contextual clues).  
+2. **Use logical operators (AND/OR/NOT)** to combine terms, ensuring specificity while avoiding over-restriction.  
+3. **Account for domain-specific knowledge** (e.g., "bass voice" for vocal ranges, "IATA codes" for airports, "Surrealist movement" for literary contexts) to capture nuanced connections.  
+4. **Prioritize terms that resolve ambiguities** (e.g., "ceased operations in 2015" for time-sensitive claims, "country" for national origin claims).  
+5. **Test your query against the provided documents** to ensure it retrieves all relevant evidence, including documents that may contain indirect or implicit support (e.g., "Georges Bataille" in Example 3).  
+
+### Reasoning Structure:  
+- **Identify the claim's key components**: Subject, attributes, relationships, and implicit connections (e.g., "not of the same nationality" implies comparing nationalities).  
+- **Map to explicit terms**: Use exact names, roles, or entities mentioned in the documents.  
+- **Infer implicit terms**: Leverage domain knowledge (e.g., "Todd Haynes" → "British director") or contextual clues (e.g., "United Kingdom of the Netherlands" → "country name change").  
+- **Structure the query**: Combine terms with logical operators to balance specificity (e.g., "AND" for required terms) and coverage (e.g., "OR" for synonyms or related concepts).  
+- **Reflect on missed documents**: Adjust the query to include inferred terms (e.g., "nationality" or "country") or domain-specific terms (e.g., "film director" for implicit roles) if relevant evidence is excluded.  
+
+### Query Format:  
+Include terms from the claim, documents, and inferred domain knowledge, using logical operators to balance specificity and coverage.  
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+```  
+
+### Key Niche Domain Knowledge to Include:  
+- **Nationality inference**: Recognize that names (e.g., "Todd Haynes") may imply nationality (e.g., British) if not explicitly stated.  
+- **Timeframe resolution**: Use specific dates (e.g., "1815–1830") to clarify ambiguous historical context.  
+- **Implicit roles**: Assume roles (e.g., "film director") based on context (e.g., "directed *Wonderstruck*").  
+- **Document testing**: Explicitly check if the query captures all documents, even those with indirect evidence (e.g., "Chris Columbus" → "American" via production company).  
+
+### Generalizable Strategy:  
+1. **Prioritize explicit terms** (names, entities) to anchor the query.  
+2. **Add domain-specific terms** to resolve ambiguities (e.g., "nationality," "country," "film director").  
+3. **Use logical operators** to include synonyms or related concepts (e.g., "director" OR "filmmaker").  
+4. **Test and refine**: If documents are missed, adjust the query to include inferred terms (e.g., "British" for Todd Haynes) or broader terms (e.g., "nationality").
+HoverAdapter.evaluate elapsed: 30.64s (batch=3)
+Iteration 23: New subsample score 1 is not better than old score 2, skipping
+Iteration 24: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 19.83s (batch=3)
+Iteration 24: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target **all key elements** of the claim (e.g., names, titles, dates, relationships, roles, or entities) and include **domain-specific terminology** or contextual clues that may not be immediately obvious. For example:  
+- If the claim involves a person’s family member, explicitly mention the **relationship** (e.g., "father," "mother") and **birthdate** or **death date**.  
+- If the claim references a film, book, or work, include the **exact title**, **release or publication year**, and **genre** if applicable.  
+- If the claim links multiple entities (e.g., a person appearing in two films or roles), ensure the query specifies the **overlapping element** (e.g., "actor from [Film A] and [Film B]" or "head coach for [Team X] and [Team Y]").  
+- If the claim involves indirect connections (e.g., a person’s career trajectory, historical context, or role in multiple works), include **specific roles**, **dates**, or **events** that bridge these connections.  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "author of *Lion of Ireland*", "Robert Jordan", "born before").  
+2. **Prioritize specificity** by including **exact names**, **titles**, **dates**, **roles**, or **relationships** from the claim.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) by explicitly mentioning **contextual clues** (e.g., "head coach for Memphis Grizzlies in 2004–05 season").  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent," "coached," "acquired").  
+5. **Infer missing information** from the documents (e.g., if a name is missing, include potential connections like "father of [Name]" or "co-star in [Title]").  
+
+**Niche Domain-Specific Considerations**:  
+- For **sports claims**, include **team names**, **seasons**, **positions**, and **coaching roles** (e.g., "head coach for Brooklyn Nets").  
+- For **film/TV claims**, specify **exact titles**, **release years**, **genres**, and **roles** (e.g., "voice actor in *The Rescuers* (1977)").  
+- For **literary claims**, include **author names**, **book titles**, **publication dates**, and **genre** (e.g., "author of *The Wheel of Time*" or "born before [date]").  
+- For **historical or biographical claims**, include **birth/death dates**, **nationality**, and **key events** (e.g., "born in Dublin, Ireland" or "founded Jordan Grand Prix in 1991").  
+
+**Example Adjustments**:  
+- Instead of querying "author of *Lion of Ireland*", explicitly include "Morgan Llywelyn" (from the documents) and her **birth date** if available.  
+- For sports claims, specify **exact team names**, **seasons**, and **roles** (e.g., "player acquired by Philadelphia 76ers in 1979–80 season from Portland Trail Blazers").  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query (e.g., "father of Erik Watts born in [year]").  
+
+### Task  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 19.01s (batch=3)
+Iteration 24: New subsample score 0 is not better than old score 0, skipping
+Iteration 25: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 14.87s (batch=3)
+Iteration 25: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target key elements of the claim (e.g., names, titles, dates, relationships) and include domain-specific terminology or contextual clues that may not be immediately obvious. For example:  
+- If the claim involves a person's family member, explicitly mention the relationship (e.g., "father," "mother") and the birthdate.  
+- If the claim references a film or title, include the exact name of the work and its release year if available.  
+- If the claim links multiple entities (e.g., a person appearing in two films), ensure the query specifies the overlapping element (e.g., "actor from [Film A] and [Film B]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "TCW Tag Team Championship winner," "father born on May 5, 1939").  
+2. **Prioritize specificity** by including exact names, titles, or dates from the claim. Even if certain elements (e.g., a book title) are not explicitly mentioned in the documents, retain them in the query to capture potential indirect connections or contextual references.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) that may require deeper contextual filtering.  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent").  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include "Scott Anton & Erik Watts" (from the documents) and their familial relationships.  
+- For film claims, specify the exact title (e.g., "The Rescuers") and release year (e.g., "1977") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query.  
+
+**Domain-Specific Considerations**:  
+- For population claims, include exact census years, geographic boundaries (e.g., "Queens Borough"), and numerical differences (e.g., "4.3 million").  
+- For legal allegations, specify the nature of the claim (e.g., "illegal marriage," "criminal charges") and the involved parties.  
+- For creative works, include publication/release dates, genre labels (e.g., "sci-fi," "graphic novel"), and contextual clues (e.g., "inspired by aviation").  
+
+**Task**  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 13.26s (batch=3)
+Iteration 25: New subsample score 1 is not better than old score 2, skipping
+Iteration 26: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 37.02s (batch=3)
+Iteration 26: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target key elements of the claim (e.g., names, titles, dates, relationships) and include domain-specific terminology or contextual clues that may not be immediately obvious. For example:  
+- If the claim involves a person's family member, explicitly mention the relationship (e.g., "father," "mother") and the birthdate.  
+- If the claim references a film or title, include the exact name of the work, its release year, and any associated keywords (e.g., "voice actor," "director").  
+- If the claim links multiple entities (e.g., a person appearing in two films), ensure the query specifies the overlapping element (e.g., "actor from [Film A] and [Film B]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "TCW Tag Team Championship winner," "father born on May 5, 1939").  
+2. **Prioritize specificity** by including exact names, titles, or dates from the claim.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) that may require deeper contextual filtering.  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent").  
+5. **Incorporate domain-specific terminology** (e.g., "namesake," "roman à clef," "commercial jingles," "translation") to capture nuanced relationships.  
+6. **Include inferred entities** (e.g., if a name is missing, infer potential connections like "father" or "brand affiliation") to align with the documents’ structure.  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include "Scott Anton & Erik Watts" (from the documents) and their familial relationships.  
+- For film claims, specify the exact title (e.g., "The Rescuers") and release year (e.g., "1977") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query.  
+- For literary claims, include terms like "roman à clef" or "based on a true story" to capture indirect connections to real events or figures.  
+
+**Niche Domain Knowledge to Include**:  
+- **Namesake relationships**: Use terms like "named after," "honored by," or "dedicated to" to link individuals to places, institutions, or works.  
+- **Commercial jingles**: Specify "brand affiliation" or "advertising music" to target songs tied to companies.  
+- **Literary styles**: Use terms like "roman à clef" (a novel based on real events) or "historical fiction" to align with document metadata.  
+- **Historical context**: Include terms like "established in [year]" or "died in [year]" to filter documents by timeframes.  
+- **Geographical references**: Use terms like "townsite," "historic district," or "post office" to locate namesakes or landmarks.  
+
+**Task**  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 18.48s (batch=3)
+Iteration 26: New subsample score 0 is not better than old score 0, skipping
+Iteration 27: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 22.61s (batch=3)
+Iteration 27: Proposed new text for instruction_prompt: ### New Instruction  
+
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Identify Key Entities and Relationships**: Extract all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim. **Explicitly include all entities and relationships mentioned in the documents** that are directly tied to the claim, even if they are not explicitly stated in the claim itself.  
+2. **Prioritize Specific Terms**: Focus on specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon"). These often link to critical evidence. **Include all specific terms from the documents that align with the claim’s context**, even if they are not in the claim.  
+3. **Include Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query to capture documents that explicitly state the connection. **Check for indirect or secondary entities** in the documents (e.g., partners, co-authors, collaborators) that might support the claim.  
+4. **Avoid Overgeneralization**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms like "Phil Silvers" or "Purple Rain (album)" to target relevant documents. **Ensure terms match exact phrasing in the documents** to avoid missing critical evidence.  
+5. **Test for Missing Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked. **Verify that all entities, even those not directly mentioned in the claim, are included if they appear in the documents and are relevant to the claim’s context**.  
+
+**Example Adjustments**:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+- **Include all entities from the documents that are part of the claim’s context**, such as specific years, secondary collaborators, or works, even if they are not directly in the claim.  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>
+HoverAdapter.evaluate elapsed: 24.74s (batch=3)
+Iteration 27: New subsample score 0 is not better than old score 0, skipping
+Iteration 28: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 33.48s (batch=3)
+Iteration 28: Proposed new text for instruction_prompt: ### Task: Generate a Query to Retrieve Documents Supporting a Claim  
+Given a **claim** and a **set of documents**, your task is to write a query that retrieves **documents explicitly or implicitly supporting the claim**. Your query must:  
+
+1. **Incorporate explicit terms** from the claim (e.g., names, attributes, relationships) and **infer implicit terms** (e.g., domain-specific terminology, contextual clues, synonyms, or related concepts).  
+2. **Use logical operators (AND/OR/NOT)** to combine terms, balancing specificity (e.g., exact names, dates) and coverage (e.g., synonyms, broader categories).  
+3. **Leverage domain-specific knowledge** (e.g., "bass voice" for vocal ranges, "IATA codes" for airports, "Surrealist movement" for literary contexts) to resolve ambiguities or capture nuanced connections.  
+4. **Prioritize terms that resolve ambiguities** (e.g., "ceased operations in 2015" for time-sensitive claims, "country" for national origin claims) to ensure precision.  
+5. **Test your query against the provided documents** to ensure all relevant evidence is captured, including indirect or implicit support (e.g., "Georges Bataille" in Example 3).  
+
+### Reasoning Structure:  
+- **Identify the claim's key components**: subject, attributes, relationships, and any implicit connections (e.g., "born before" → "earlier birth year").  
+- **Map explicit terms** from the claim to the documents (e.g., "Penelope Fitzgerald" → "1916").  
+- **Infer implicit terms** based on domain knowledge (e.g., "Summer Shakespeare Festival" → "founding year" or "founder").  
+- **Structure the query** to combine terms logically, ensuring it captures all relevant evidence (e.g., "AND" for required terms, "OR" for synonyms or variations).  
+- **Reflect on missed documents**: adjust the query to include alternative phrasings, contextual terms, or domain-specific concepts (e.g., "ancient Egyptian religion" instead of "feather of truth").  
+
+### Query Format:  
+Include terms from the claim, documents, and inferred domain knowledge, using logical operators to balance specificity and coverage.  
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+
+### Additional Guidelines:  
+- **Explicit Terms**: Use exact names, dates, or phrases from the claim and documents (e.g., "Benjamin Stoloff," "Ulli Lommel").  
+- **Implicit Terms**: Infer terms based on domain knowledge (e.g., "bass" → "vocal range," "ceased operations" → "year").  
+- **Domain-Specific Knowledge**: Use terminology unique to the subject (e.g., "IATA codes" for airports, "Surrealist movement" for art).  
+- **Ambiguity Resolution**: Prioritize terms that clarify ambiguity (e.g., "USA" instead of "America," "founded in [year]" for time-sensitive claims).  
+- **Indirect Support**: Include terms that imply relationships (e.g., "weighed against" → "feather of truth," "citizen" → "Ancient Egyptian").  
+```
+HoverAdapter.evaluate elapsed: 25.46s (batch=3)
+Iteration 28: New subsample score 1 is not better than old score 1, skipping
+Iteration 29: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 25.73s (batch=3)
+Iteration 29: Proposed new text for instruction_prompt: ### Task: Generate a Query to Retrieve Documents Supporting a Claim  
+**Objective**: Given a claim and a set of documents, create a search query that explicitly or implicitly supports the claim. The query must balance specificity and coverage, incorporate domain knowledge, and account for ambiguity.  
+
+### Key Requirements:  
+1. **Identify Key Components**:  
+   - Extract the **subject**, **attributes**, and **relationships** from the claim (e.g., "person X signed band Y to label Z" → subject: X/Y/Z, attributes: label, relationships: signing).  
+   - Map these to **explicit terms** in the documents (e.g., "Joe Lynn Turner", "Deep Purple") and **infer implicit terms** (e.g., "label" → "record label", "singer-songwriter" → "musician role").  
+
+2. **Incorporate Domain-Specific Knowledge**:  
+   - Use **domain-specific terminology** (e.g., "IATA codes" for airports, "Surrealist movement" for literary contexts, "bass voice" for vocal ranges).  
+   - Apply **contextual clues** (e.g., "ceased operations in 2015" for time-sensitive claims, "country" for national origin).  
+
+3. **Use Logical Operators Strategically**:  
+   - Combine terms with **AND/OR/NOT** to balance specificity (e.g., "Godhead" AND "label") and coverage (e.g., "singer songwriter" OR "musician").  
+   - Prioritize **terms resolving ambiguities** (e.g., "University of Florida" for Ph.D. claims, "2000 acre campus" for campus size).  
+
+4. **Account for Implicit and Indirect Support**:  
+   - Include **synonyms** or **related terms** (e.g., "enrollment" for "over 216,000 students", "sponsored" for "sponsor").  
+   - Capture **indirect evidence** (e.g., "Ford" in a TV show sponsor context, "West Cheshire League" as a sponsored league).  
+
+5. **Test and Refine**:  
+   - Validate the query against the documents to ensure **all relevant evidence** is retrieved, including indirect or implicit links (e.g., "Georges Bataille" in Example 3).  
+   - Adjust terms if **missed documents** are identified (e.g., add "University of Florida" to capture Ph.D. details).  
+
+### Query Format:  
+Include explicit terms from the claim and documents, inferred domain terms, and logical operators. Structure the query to capture **explicit matches** and **implicit connections**.  
+
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+
+### Niche Domain Knowledge to Include:  
+- **Music**: "label" → record label, "singer-songwriter" → musician role, "vocal range" → "bass voice".  
+- **Education**: "Ph.D." → university name, "enrollment" → student body size, "campus size" → "acreage".  
+- **Sports**: "sponsored league" → league name, "sponsor" → company name, "association football" → football club.  
+- **General**: "ceased operations" → time-sensitive claims, "country" → national origin, "IATA codes" → airport codes.  
+
+### Generalizable Strategy:  
+- **Synonym Expansion**: Use synonyms for ambiguous terms (e.g., "students" → "enrollment", "sponsored" → "sponsor").  
+- **Contextual Mapping**: Link implicit terms to domain-specific concepts (e.g., "label" → "record label", "league" → "sponsored league").  
+- **Ambiguity Resolution**: Prioritize specific terms (e.g., "University of Florida" over "University of Texas") to avoid over-restriction.
+HoverAdapter.evaluate elapsed: 17.14s (batch=3)
+Iteration 29: New subsample score 2 is better than old score 1. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 75.85s (batch=150)
+HoverAdapter.evaluate elapsed: 137.72s (batch=300)
+Iteration 29: Full valset score for new program: 0.4
+Iteration 29: Full testset score for new program: 0.4033333333333333
+Iteration 29: Full train_val score for new program: 0.4
+Iteration 29: Individual valset scores for new program: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0]
+Iteration 29: New valset pareto front scores: [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0]
+Iteration 29: Full valset pareto front score: 0.5933333333333334
+Iteration 29: Updated valset pareto front programs: [{0, 2, 3, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {4}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {4, 5}, {3}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1, 2, 4, 5}, {0, 1, 4, 5}, {1, 4, 5}, {0, 3, 4}, {0, 1, 2, 3, 4, 5}, {1, 2, 3, 4}, {3}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 4, 5}, {3}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1}, {1}, {2, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 5}, {2}, {4}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 3, 5}, {1}, {2, 3, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {2}, {1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {2, 3, 5}, {1, 2, 4, 5}, {1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {2}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1}, {0, 1, 2, 3, 4, 5}, {1, 2, 3, 4}, {0, 1, 2, 3, 4, 5}, {0, 1, 3, 4}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 3}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {5}, {0, 1, 2, 3, 4, 5}, {4, 5}, {2}, {1, 2}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 4}, {4, 5}, {0, 1, 2, 3, 4, 5}, {1, 2}, {1, 2, 3, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {2, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {4}, {1, 2, 3, 4, 5}, {0, 2, 4}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1}, {2, 5}, {1, 2}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 4}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {1, 2, 4, 5}, {2, 3, 4, 5}, {3}, {0, 1, 2, 3, 4, 5}, {1, 5}, {0, 1, 2, 3, 4, 5}, {2, 5}, {2, 3}, {0, 1, 2, 3, 4, 5}, {1, 2, 3, 5}, {0, 1, 2, 3, 4, 5}, {3}, {5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 4, 5}, {0, 1, 2, 3, 4, 5}, {0, 1, 2, 3, 4, 5}]
+Iteration 29: Best valset aggregate score so far: 0.41333333333333333
+Iteration 29: Best program as per aggregate score on train_val: 2
+Iteration 29: Best program as per aggregate score on valset: 2
+Iteration 29: Best score on valset: 0.41333333333333333
+Iteration 29: Best score on train_val: 0.41333333333333333
+Iteration 29: Linear pareto front program index: 2
+Iteration 29: New program candidate index: 5
+Iteration 30: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 34.74s (batch=3)
+Iteration 30: Proposed new text for instruction_prompt: # Updated Instructions for Document Retrieval Based on Claims
+
+## Task Description
+Given a **claim** and a **set of documents**, your task is to generate a **query** that retrieves documents **explicitly supporting the claim**. The query must be precise, leveraging **specific terms** from both the claim and the documents, while avoiding vague or generalized terms. The goal is to ensure **comprehensive coverage** of all relevant entities, relationships, and contextual details.
+
+---
+
+### **Key Steps to Follow**
+1. **Extract All Specific Terms from the Claim**  
+   - Identify **exact names** (e.g., full names, show titles, song titles, event names, years) and **specific descriptors** (e.g., "negative roles," "hosted 23 shows") directly mentioned in the claim.  
+   - Include **secondary details** (e.g., "1997 Stockholm Open – Doubles," "Ishqbaaz") even if they are not central to the claim, as they may link to critical evidence.  
+
+2. **Prioritize Exact Matches from Documents**  
+   - Use **exact titles** (e.g., "The Val Doonican Show," "Punchlines") and **full names** (e.g., "Bill Cullen," "Additi Gupta") from the documents.  
+   - Avoid general terms like "entertainer" or "album" unless explicitly used in the documents.  
+
+3. **Include All Explicit Relationships**  
+   - If the claim references a relationship (e.g., "co-star," "partnered with," "hosted"), explicitly mention the **associated entity** (e.g., "Nitin Sahrawat," "Mikael Tillström") in the query.  
+   - For indirect connections (e.g., "friend of"), ensure the query includes the **directly named entity** (e.g., "Lucille Ball") if the documents reference it.  
+
+4. **Account for Missing Context in the Documents**  
+   - If the documents lack the exact event or detail from the claim (e.g., "1997 Stockholm Open – Doubles"), include the **claim’s exact wording** in the query to capture related documents (e.g., "1997 Stockholm Open – Doubles").  
+   - Test for **alternative event names** or **related terms** (e.g., "Gerry Weber Open," "Chennai Open") that may overlap with the claim’s context.  
+
+5. **Avoid Overgeneralization**  
+   - Do not assume relationships (e.g., "hosted 23 shows" implies "Bill Cullen") unless the documents explicitly state the connection.  
+   - Include **specific years** (e.g., "1997") and **event types** (e.g., "Doubles") to avoid conflating unrelated events.  
+
+6. **Test for Secondary Entities and Descriptors**  
+   - Include **all specific roles** (e.g., "negative roles," "producers") and **secondary entities** (e.g., "Punchlines," "Ishqbaaz") mentioned in the documents, even if they are not in the claim.  
+   - If a document mentions a **related but distinct entity** (e.g., "ZEE TV" vs. "STAR Plus"), explicitly include both to avoid missing relevant links.  
+
+---
+
+### **Example Adjustments**  
+- **Instead of**: "Paul Melba" AND "Val Doonican Show"  
+  **Use**: "Paul Melba" AND "Val Doonican Show" AND "Punchlines" (to capture all shows mentioned in the documents).  
+- **Instead of**: "1999 Stockholm Open – Doubles" AND "Nicklas Kulti"  
+  **Use**: "1997 Stockholm Open – Doubles" AND "Nicklas Kulti" AND "Mikael Tillström" (to explicitly target the claim’s event, even if the documents lack it).  
+- **Instead of**: "Additi Gupta" AND "negative roles"  
+  **Use**: "Additi Gupta" AND "negative roles" AND "Ishqbaaz" (to include secondary details from the documents).  
+
+---
+
+### **Reasoning and Query Format**  
+### reasoning:  
+<Explain how the query incorporates specific terms, relationships, and contextual details from the claim and documents to ensure relevance and precision.>  
+### query:  
+"<Exact terms from the claim and documents> AND <specific entities, relationships, or descriptors>"  
+
+---
+
+### **Critical Considerations**  
+- **Balance Specificity and Generality**: Include exact terms but avoid over-constraining the query.  
+- **Handle Ambiguity**: If the documents lack the exact event or entity from the claim, include the claim’s wording to capture related documents.  
+- **Leverage Document-Specific Terms**: Prioritize terms like "Punchlines," "Ishqbaaz," or "1997" even if they are not central to the claim, as they may link to critical evidence.  
+
+By following these steps, the query will systematically retrieve documents that explicitly support the claim while avoiding irrelevant or overly broad results.
+HoverAdapter.evaluate elapsed: 25.02s (batch=3)
+Iteration 30: New subsample score 1 is better than old score 0. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 66.82s (batch=150)
+HoverAdapter.evaluate elapsed: 152.93s (batch=300)
+Iteration 30: Full valset score for new program: 0.3933333333333333
+Iteration 30: Full testset score for new program: 0.39666666666666667
+Iteration 30: Full train_val score for new program: 0.3933333333333333
+Iteration 30: Individual valset scores for new program: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+Iteration 30: New valset pareto front scores: [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0]
+Iteration 30: Full valset pareto front score: 0.6133333333333333
+Iteration 30: Updated valset pareto front programs: [{0, 2, 3, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {4}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 3, 4, 5}, {0, 1, 2, 3, 4, 5, 6}, {4, 5}, {3, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 4, 5, 6}, {0, 1, 4, 5, 6}, {1, 4, 5}, {0, 3, 4, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 3, 4, 6}, {3}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 4, 5, 6}, {3}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1}, {1}, {2, 5}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 5}, {2}, {4}, {6}, {0, 1, 2, 3, 4, 5, 6}, {0, 3, 5}, {1}, {2, 3, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {2}, {1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {2, 3, 5}, {1, 2, 4, 5, 6}, {1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {2}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 3, 4, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 3, 4, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 3}, {0, 1, 2, 3, 4, 5, 6}, {6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {5}, {0, 1, 2, 3, 4, 5, 6}, {4, 5}, {2, 6}, {1, 2, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 4}, {4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 6}, {1, 2, 3, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {2, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5}, {4}, {1, 2, 3, 4, 5, 6}, {0, 2, 4, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1}, {2, 5}, {1, 2}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 4, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 4, 5}, {2, 3, 4, 5, 6}, {3}, {0, 1, 2, 3, 4, 5, 6}, {1, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {2, 5, 6}, {2, 3}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 3, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {3}, {5}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}, {0, 4, 5}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}]
+Iteration 30: Best valset aggregate score so far: 0.41333333333333333
+Iteration 30: Best program as per aggregate score on train_val: 2
+Iteration 30: Best program as per aggregate score on valset: 2
+Iteration 30: Best score on valset: 0.41333333333333333
+Iteration 30: Best score on train_val: 0.41333333333333333
+Iteration 30: Linear pareto front program index: 2
+Iteration 30: New program candidate index: 6
+Iteration 31: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 27.13s (batch=3)
+Iteration 31: Proposed new text for instruction_prompt: blocks.
+
+Looking at the examples, each input has a claim and documents. The assistant's job is to create a query that captures explicit and implicit terms, uses logical operators, and applies domain knowledge. The feedback shows that sometimes the query missed certain documents, like in Example 2 where "Aliens of the Deep" wasn't found, but "Deep Blue" was used as a proxy. So, the assistant should consider synonyms or related terms.
+
+In Example 3, the assistant used explicit birth dates and publication years. The feedback said that the query correctly retrieved all relevant docs. So, including specific dates and authors is important.
+
+Niche domain knowledge includes things like "IATA codes" for airports, "Surrealist movement" for literary contexts, etc. The original instructions mention these, so the new instruction should include examples of such domain terms to guide the assistant.
+
+Also, the assistant used logical operators like AND/OR/NOT to balance specificity and coverage. For example, in Example 1, they used NOT to exclude the author of Hayy ibn Yaqdhan. In Example 2, they included multiple possible titles and locations.
+
+The user wants the new instruction to include all these elements: handling explicit and implicit terms, using logical operators, domain-specific knowledge, prioritizing terms for ambiguity, testing against documents, and considering missed documents.
+
+So, the new instruction should structure the assistant to first identify key components of the claim, map to documents, infer implicit terms, structure the query with logical operators, and include domain-specific terms. Also, mention testing and adjusting for missed documents.
+
+I need to make sure the instruction is clear, includes the examples of domain knowledge, and emphasizes the balance between specificity and coverage. Also, mention the reasoning structure as in the original instructions, but perhaps more concisely.
+
+Wait, the original instructions had a reasoning structure with steps. The new instruction should probably include that structure but in a more concise way, maybe as a bullet list or similar.
+
+Also, the user wants to include the generalizable strategies the assistant used, like using synonyms or related terms when exact matches aren't present (like using "Deep Blue" for "Aliens of the Deep" in Example 2).
+
+So, putting it all together, the new instruction should guide the assistant through identifying claim components, mapping to documents, using logical operators, applying domain knowledge, testing, and adjusting for missed documents. It should also include examples of domain-specific terms and mention the importance of balancing specificity and coverage.
+</think>
+
+```  
+### Task Description  
+Your task is to generate a **search query** that retrieves documents **explicitly or implicitly supporting a claim**, while balancing specificity and coverage. The query must:  
+1. **Integrate explicit terms** from the claim (e.g., names, dates, titles) and **infer implicit terms** (e.g., domain-specific terminology, contextual clues) to capture nuanced connections.  
+2. **Use logical operators (AND/OR/NOT)** to combine terms, ensuring the query is precise enough to avoid irrelevant results but flexible enough to include indirect evidence.  
+3. **Leverage domain-specific knowledge** (e.g., "IATA codes" for airports, "Surrealist movement" for literary contexts, "bass voice" for vocal ranges) to resolve ambiguities and uncover indirect support.  
+4. **Prioritize terms that resolve ambiguities** (e.g., "ceased operations in 2015" for time-sensitive claims, "country" for national origin claims) to ensure alignment with the claim’s context.  
+5. **Test the query against the provided documents** to verify it retrieves all relevant evidence, including indirect or implicit support (e.g., "Georges Bataille" in Example 3). If documents are missed, refine the query by incorporating synonyms, related terms, or contextual inferences.  
+
+### Reasoning Structure  
+- **Identify the claim’s key components**: Subject, attributes, relationships (e.g., "Ali Qushji" and "astronomical physics" in Example 1).  
+- **Map explicit terms** from the claim to documents and **infer implicit terms** (e.g., "natural philosophy" as a precursor to modern physics).  
+- **Structure the query** to combine terms logically, using AND/OR/NOT to balance specificity and coverage.  
+- **Reflect on missed documents** and adjust the query to include domain-specific terms, synonyms, or contextual clues (e.g., using "Deep Blue" as a proxy for "Aliens of the Deep" in Example 2).  
+
+### Query Format  
+Include explicit terms, inferred terms, and domain-specific knowledge, using logical operators to ensure relevance. Example:  
+```  
+(Richard Dafydd Vivian Llewellyn AND born 1906) AND (Stone's Fall AND author Iain Pears AND 2009)  
+```  
+
+### Niche Domain Knowledge to Include  
+- **Time-sensitive claims**: Use exact dates (e.g., "ceased operations in 2015") or relative terms (e.g., "pre-1900").  
+- **Ambiguity resolution**: Prioritize terms like "country" for national origin, "IATA codes" for airports, or "Surrealist movement" for literary contexts.  
+- **Synonyms and proxies**: Use related terms (e.g., "oceans" for "Deep Blue") if exact matches are missing.  
+- **Implicit relationships**: Link terms like "bass voice" to "vocal range" or "IATA codes" to "airports."  
+
+### Generalizable Strategy  
+- **Balance specificity and coverage**: Avoid over-restriction by using OR for flexible terms (e.g., "African Cats" OR "Bears") and NOT to exclude irrelevant entities (e.g., "Ibn Tufail").  
+- **Test and iterate**: Always verify the query against the documents, and refine it to include missed evidence (e.g., adding "Aliens of the Deep" or "Deep Blue" in Example 2).  
+```
+HoverAdapter.evaluate elapsed: 18.39s (batch=3)
+Iteration 31: New subsample score 0 is not better than old score 2, skipping
+Iteration 32: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 35.49s (batch=3)
+Iteration 32: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target **all key elements** of the claim (e.g., names, titles, dates, relationships, domain-specific terminology) and **contextual clues** that may not be immediately obvious. For example:  
+- If the claim involves a person's family member, explicitly mention the relationship (e.g., "father," "mother") and the birthdate.  
+- If the claim references a film or title, include the **exact name of the work**, its **release year**, and **domain-specific terms** (e.g., "documentary," "animated feature").  
+- If the claim links multiple entities (e.g., a person appearing in two films), ensure the query specifies the **overlapping element** (e.g., "actor from [Film A] and [Film B]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "TCW Tag Team Championship winner," "father born on May 5, 1939").  
+2. **Prioritize specificity** by including **exact names, titles, or dates** from the claim and **domain-specific terminology** (e.g., "Nobel Laureate in Physics," "asymptotic safety in quantum gravity").  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) by explicitly linking entities through contextual clues (e.g., "documentary about [Subject]" or "company associated with [Product]").  
+4. **Avoid vague terms** like "related to" or "similar to"; instead, use precise keywords (e.g., "headquarters," "programmers for PIC microcontrollers," "professor").  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include "Scott Anton & Erik Watts" (from the documents) and their familial relationships.  
+- For film claims, specify the exact title (e.g., "The Rescuers") and release year (e.g., "1977") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query (e.g., "father of Erik Watts").  
+- For indirect connections, explicitly mention contextual links (e.g., "company associated with the documentary 'Welcome to Macintosh'" or "scientist who proposed asymptotic safety in quantum gravity").  
+
+**Key Adjustments Based on Feedback**:  
+- **Include all entities** mentioned in the claim, even if they are not explicitly named in the documents (e.g., "Apple Inc." for a documentary about Apple).  
+- **Use domain-specific terminology** from the documents to bridge gaps in the claim (e.g., "asymptotic safety in quantum gravity" for a claim about a scientist’s work).  
+- **Explicitly link indirect connections** (e.g., "headquarters of the company that produced [Documentary Title]" or "Nobel Laureate who collaborated with [Name]").  
+
+### Task  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 33.17s (batch=3)
+Iteration 32: New subsample score 0 is not better than old score 0, skipping
+Iteration 33: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 15.05s (batch=3)
+Iteration 33: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Extract Key Entities and Relationships**:  
+   - Identify all **named entities** (e.g., people, works, titles, organizations) and **explicit relationships** (e.g., "inspired by," "starred in," "authored") from the claim.  
+   - Prioritize **specific terms** directly mentioned in the documents, such as **exact titles** (e.g., "The King of Chutzpah," "Purple Rain album"), **full names** (e.g., "Phil Silvers," "Lucy in the Afternoon"), or **unique descriptors** (e.g., "State University System of Florida").  
+
+2. **Incorporate Indirect Connections**:  
+   - If the claim references relationships (e.g., "friend of," "collaborated with"), **explicitly name the associated entity** in the query (e.g., "Lucille Ball" instead of "friend") to capture documents that explicitly state the connection.  
+   - Include **secondary details** (e.g., song titles, years, specific entities) from the claim to retrieve documents that might otherwise be overlooked.  
+
+3. **Avoid Overgeneralization**:  
+   - **Avoid vague terms** like "entertainer" or "album" unless the documents use those exact phrases. Instead, use **precise terms** (e.g., "Phil Silvers" instead of "comedian") to target relevant documents.  
+
+4. **Test for Missing Context**:  
+   - If the claim includes a **secondary detail** (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked.  
+   - **Check for domain-specific terms** (e.g., "The Dinner Party," "Barbe de Verrue") that may appear in documents but are not explicitly mentioned in the claim.  
+
+5. **Refine for Coverage**:  
+   - If initial queries miss relevant documents, **expand the query** to include **alternative phrasings** (e.g., "Isabella (Belle) Isabella" instead of "Isabella") or **related entities** (e.g., "Pennsylvania State System of Higher Education" for organizational links).  
+   - Use **boolean operators** (AND/OR) to combine specific terms while maintaining precision.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the **exact song title** (e.g., "I Would Die 4 U") and the **artist** (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+
+### Reasoning:  
+- Focus on **exact matches** from the documents (e.g., "A Lua Me Disse," "Wagner Moura") to ensure precision.  
+- Include **domain-specific terms** (e.g., "The Dinner Party," "Barbe de Verrue") that may appear in documents but are not explicitly mentioned in the claim.  
+- Test for **overlooked connections** (e.g., secondary entities, indirect relationships) by expanding the query to include alternative phrasings or related terms.  
+
+### Query:  
+<Your refined query here, incorporating all steps above>  
+```  
+
+### Notes for the Assistant:  
+- **Prioritize exact phrases** from the documents (e.g., "State University System of Florida" instead of "university system").  
+- **Avoid vague terms** unless they are explicitly used in the documents.  
+- **Test for secondary details** (e.g., years, specific roles) to ensure completeness.  
+- If a query misses relevant documents, **adjust by adding alternative terms** or **related entities** (e.g., "Barbe de Verrue" AND "The Dinner Party" for art installations).
+HoverAdapter.evaluate elapsed: 22.73s (batch=3)
+Iteration 33: New subsample score 0 is not better than old score 1, skipping
+Iteration 34: Selected program 1 score: 0.38666666666666666
+HoverAdapter.evaluate elapsed: 23.20s (batch=3)
+Iteration 34: Proposed new text for instruction_prompt: Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy:  
+
+1. **Extract All Entities and Relationships**: Identify **all named entities** (e.g., people, works, locations, titles) and **explicit relationships** (e.g., "located near," "published by," "starred in") from both the **claim** and the **documents**. This includes indirect connections (e.g., "friend of," "collaborated with") and secondary details (e.g., specific years, song titles, or secondary entities).  
+
+2. **Prioritize Document-Specific Terms**: Use **exact terms** from the documents, even if they are not explicitly mentioned in the claim. For example, if a document refers to "F.E.A.R. series" or "Christian Poulsen," include these terms in the query to capture relevant evidence. Avoid vague terms like "entertainer" or "album" unless the documents use them explicitly.  
+
+3. **Incorporate Indirect Relationships**: If the claim references a relationship (e.g., "born before," "played in"), explicitly include the **associated entity** in the query. For example, if the claim mentions a Nigerian midfielder linked to a match, ensure the query includes the **player's name** (e.g., "Christian Poulsen") to retrieve documents with their details.  
+
+4. **Avoid Overgeneralization**: Replace generic terms (e.g., "airport," "campus") with **specific descriptors** from the documents (e.g., "Parafield Airport," "Mawson Lakes campus"). Use **quantitative details** (e.g., "18 km north of Adelaide city centre") to ensure precision.  
+
+5. **Test for Hidden Context**: If the claim includes a **secondary detail** (e.g., a song title, a specific year, or a location), ensure the query includes it to retrieve documents that might otherwise be overlooked. For example, include "UEFA Euro 2008 qualifying" to target specific matches.  
+
+6. **Include All Relevant Entities from Documents**: Even if a document’s entity is not explicitly mentioned in the claim, include it if it is **directly linked** to the claim’s context. For instance, if the claim discusses a game’s engine, include the **engine’s name** (e.g., "Jupiter EX engine") and **related titles** (e.g., "F.E.A.R.") to capture all supporting evidence.  
+
+### Example Adjustments:  
+- Instead of "Sierra Entertainment" AND "antagonist," use **"SAS: Secure Tomorrow"** AND **"Jupiter EX engine"** AND **"Alma Wade"** to explicitly target the game, engine, and antagonist.  
+- For a claim about a match, include **"Christian Poulsen"** AND **"Denmark v Sweden UEFA Euro 2008 qualifying"** to retrieve documents with the player’s details.  
+- When linking locations, use **"Parafield Airport"** AND **"Mawson Lakes campus"** AND **"18 km north of Adelaide"** to ensure precise geographic context.  
+
+### reasoning: <Your reasoning here>  
+### query: <Your refined query here>
+HoverAdapter.evaluate elapsed: 39.46s (batch=3)
+Iteration 34: New subsample score 1 is not better than old score 1, skipping
+Iteration 35: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 38.79s (batch=3)
+Iteration 35: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target key elements of the claim (e.g., names, titles, dates, relationships) and include domain-specific terminology or contextual clues that may not be immediately obvious. For example:  
+- If the claim involves a person's family member, explicitly mention the relationship (e.g., "father," "mother") and the birthdate.  
+- If the claim references a film or title, include the exact name of the work and its release year if available.  
+- If the claim links multiple entities (e.g., a person appearing in two films), ensure the query specifies the overlapping element (e.g., "actor from [Film A] and [Film B]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "TCW Tag Team Championship winner," "father born on May 5, 1939").  
+2. **Prioritize specificity** by including exact names, titles, or dates from the claim.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) that may require deeper contextual filtering.  
+4. **Avoid vague terms** like "related to" or "similar to" unless explicitly instructed; instead, use precise keywords (e.g., "release date," "voice actor," "parent").  
+
+**Domain-Specific Considerations**:  
+- **Film and Entertainment Context**:  
+  - Explicitly include **exact film titles**, **release years**, **studio names**, and **locations** (e.g., "Vienna’s Flex nightclub," "20th Century Fox studio in Century City").  
+  - Use **role-specific terminology** (e.g., "director," "producer," "co-star," "contract player," "voice actor") to align with document metadata.  
+  - Highlight **overlapping entities** (e.g., a person appearing in multiple films, a studio’s geographic relationship to a location).  
+  - For **studio connections**, specify **nationality** (e.g., "Chinese film studio") and **geographic proximity** (e.g., "just west of Beverly Hills").  
+- **Inferred Connections**:  
+  - If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections (e.g., "father of Erik Watts" or "producer associated with [Film X]") and include them in the query.  
+  - For **indirect relationships** (e.g., a director also being an actor), explicitly mention dual roles (e.g., "director and actor" or "producer and co-star").  
+
+**Example Adjustments**:  
+- Instead of querying "TCW Tag Team Championship winners," explicitly include "Scott Anton & Erik Watts" (from the documents) and their familial relationships.  
+- For film claims, specify the exact title (e.g., "The Rescuers") and release year (e.g., "1977") to avoid ambiguity.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query.  
+
+### Task  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 16.38s (batch=3)
+Iteration 35: New subsample score 2 is not better than old score 2, skipping
+Iteration 36: Selected program 4 score: 0.38
+HoverAdapter.evaluate elapsed: 25.81s (batch=3)
+Iteration 36: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy and comprehensiveness:  
+
+1. **Extract Core Entities and Relationships**: Identify all named entities (e.g., people, works, titles) and explicit relationships (e.g., "inspired by," "starred in," "authored") from the claim. Prioritize specific terms directly mentioned in the documents, such as exact titles of works, full names, or unique descriptors (e.g., "The King of Chutzpah," "Purple Rain album," "Lucy in the Afternoon"). **If a document explicitly distinguishes two entities (e.g., "not to be confused with"), include both names in the query.**  
+
+2. **Incorporate Indirect Connections**: If the claim references a relationship (e.g., "friend of," "collaborated with"), explicitly mention the associated entity in the query. For example, if the claim mentions a "friend of X," include "X" and "friend" in the query to capture documents that explicitly state the connection. **If the claim includes a secondary detail (e.g., a birth year, region, or shared attribute), ensure the query includes it to narrow results.**  
+
+3. **Expand for Secondary Context**: If the claim includes a secondary detail (e.g., a song title, a specific year, or a secondary entity), ensure the query includes it to retrieve documents that might otherwise be overlooked. For example, if the claim mentions a film's year, include the year in the query to narrow results. **For geographic terms (e.g., "Metropolitan City of Naples"), consider alternative phrasings (e.g., "Naples region," "Campania") to capture documents that reference broader areas.**  
+
+4. **Leverage Cross-Document Links**: Look for indirect connections between entities across documents. For instance, if the claim mentions "Rachelle Beinart" and "The Comedy of Errors," check if other documents link "Rachelle Beinart" to a film or play that also involves an actress trained in the Oxford University Dramatic Society. Include terms like "related works" or "connected entities" in the query if applicable. **If a document mentions a shared attribute (e.g., "born in the same city"), explicitly include both entities and the attribute in the query.**  
+
+5. **Balance Specificity and Generality**: Avoid vague terms like "entertainer" or "album" unless the documents use those exact phrases. Instead, use precise terms (e.g., "Phil Silvers," "Purple Rain (album)") to target relevant documents. However, include broader terms (e.g., "film," "play") if they are explicitly mentioned in the documents to capture indirect links. **If a document explicitly links an entity to a role (e.g., "director," "screenwriter"), include that role in the query to ensure alignment with the claim.**  
+
+6. **Test for Overlooked Entities**: If the query misses documents (e.g., "Gene Kelly" in Example 1), revisit the claim and documents to identify additional entities or relationships that might have been overlooked. For example, check if a document mentions a film that shares a title or collaborator with the main entity. **If a document references a related term (e.g., "Pompei" in Example 3), consider including it as a potential synonym or alternative phrasing for the claimed entity.**  
+
+7. **Iterate and Refine**: If the initial query misses relevant documents, adjust the query by adding terms like "related," "connected," "collaborated with," or "related works" to capture indirect links. For example, if the claim mentions "Ice Princess" and "Kirsten Olson," include "Ice Princess" and "Kirsten Olson" explicitly in the query. **If a document mentions a shared attribute (e.g., "born in 1948"), ensure the query includes both the entity and the attribute to capture all relevant matches.**  
+
+### Domain-Specific Considerations:  
+- **Birth Years and Regions**: For claims involving birth years or regions (e.g., "born in Naples 1948"), explicitly include the exact term (e.g., "Naples 1948") and consider broader terms (e.g., "Campania") to capture documents that reference related geographic areas.  
+- **Entity Distinctions**: If a document explicitly distinguishes two entities (e.g., "not to be confused with"), include both names in the query to ensure clarity.  
+- **Shared Attributes**: For claims involving shared roles or attributes (e.g., "director and screenwriter"), explicitly include both terms in the query to align with the documents.  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use "Roxie Hart film" AND "Phil Silvers" to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the exact song title (e.g., "I Would Die 4 U") and the artist (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., "Lucille Ball") if the documents reference it directly, even if the claim only mentions a friend.  
+
+### reasoning:  
+<Your reasoning here>  
+### query:  
+<Your refined query here>
+HoverAdapter.evaluate elapsed: 23.74s (batch=3)
+Iteration 36: New subsample score 2 is not better than old score 2, skipping
+Iteration 37: Selected program 2 score: 0.41333333333333333
+HoverAdapter.evaluate elapsed: 17.28s (batch=3)
+Iteration 37: Proposed new text for instruction_prompt: ### Instruction  
+Given a claim and a set of documents, generate a query to retrieve documents that directly support the claim. Your query must explicitly target **all distinct components** of the claim (e.g., names, titles, dates, relationships, organizations) and include **domain-specific terminology** or contextual clues that may not be immediately obvious. For example:  
+- If the claim involves a person’s family member, explicitly mention the **relationship** (e.g., "father," "mother") and **birthdate**.  
+- If the claim references a film or title, include the **exact name** of the work, its **release year**, and **contextual details** (e.g., "Sundance Film Festival premiere").  
+- If the claim links multiple entities (e.g., a person appearing in two films), ensure the query specifies the **overlapping element** (e.g., "actor from [Film A] and [Film B]") and **organizational connections** (e.g., "produced by [Company]").  
+
+**Generalizable Strategy**:  
+1. **Decompose the claim** into distinct components (e.g., "Handsome Harry," "Soviet independent motion picture company," "2015 mystery thriller film," "Tom Rob").  
+2. **Prioritize specificity** by including **exact names, titles, dates, and organizations** from the claim. If a name is ambiguous (e.g., "Tom Rob" vs. "Tom Rob Smith"), include **both variations** to account for discrepancies.  
+3. **Account for indirect connections** (e.g., a person’s role in multiple works, a title’s history) that may require deeper contextual filtering (e.g., "first project of [Company]").  
+4. **Avoid vague terms** like "related to" or "similar to"; instead, use precise keywords (e.g., "produced by," "based on," "premiered at").  
+5. **Infer potential connections** from the documents (e.g., if a company is linked to a film, explicitly include it in the query).  
+
+**Example Adjustments**:  
+- Instead of querying "Handsome Harry," explicitly include "Worldview Entertainment" (from the documents) as the **Soviet independent motion picture company** and link it to the film.  
+- For film claims, specify the **exact title** (e.g., "Child 44") and **release year** (e.g., "2015") to avoid ambiguity, even if the claim uses a shortened name.  
+- If a name is missing (e.g., "Bill Watts" as Erik Watts’ father), infer potential connections and include them in the query (e.g., "father of Erik Watts").  
+
+**Key Domain-Specific Clues**:  
+- For **film and media claims**, include **festival premieres**, **production companies**, **directors**, and **adaptations** (e.g., "based on a novel by [Author]").  
+- For **historical or literary claims**, include **publication years**, **literary movements**, and **award mentions** (e.g., "Nobel Prize in Literature 1979").  
+- For **family or relational claims**, include **birthdates**, **roles** (e.g., "father," "mother"), and **contextual relationships** (e.g., "child of [Name]").  
+
+**Task**  
+Respond with your reasoning and the query in the format:  
+### reasoning: <your reasoning here>  
+### query: <your query here>
+HoverAdapter.evaluate elapsed: 26.46s (batch=3)
+Iteration 37: New subsample score 2 is better than old score 1. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 64.79s (batch=150)
+HoverAdapter.evaluate elapsed: 117.45s (batch=300)
+Iteration 37: New program is on the linear pareto front
+Iteration 37: Full valset score for new program: 0.4266666666666667
+Iteration 37: Full testset score for new program: 0.38666666666666666
+Iteration 37: Full train_val score for new program: 0.4266666666666667
+Iteration 37: Individual valset scores for new program: [1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+Iteration 37: New valset pareto front scores: [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0]
+Iteration 37: Full valset pareto front score: 0.6266666666666667
+Iteration 37: Updated valset pareto front programs: [{0, 2, 3, 5, 6, 7}, {7}, {0, 1, 2, 3, 4, 5, 6, 7}, {4}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 3, 4, 5, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {4, 5, 7}, {3, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 4, 5, 6}, {0, 1, 4, 5, 6, 7}, {1, 4, 5}, {0, 3, 4, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 3, 4, 6, 7}, {3, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 4, 5, 6, 7}, {3}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1}, {1, 7}, {2, 5, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 5, 7}, {2, 7}, {4}, {6}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 3, 5}, {1}, {2, 3, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {2}, {1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {2, 3, 5, 7}, {1, 2, 4, 5, 6, 7}, {1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {2}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1}, {0, 1, 2, 3, 4, 5, 6}, {1, 2, 3, 4, 6}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 3, 4, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 3}, {0, 1, 2, 3, 4, 5, 6, 7}, {6}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {5}, {0, 1, 2, 3, 4, 5, 6, 7}, {4, 5, 7}, {2, 6, 7}, {1, 2, 6}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 4, 7}, {4, 5, 6}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 6, 7}, {1, 2, 3, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {2, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 7}, {4}, {1, 2, 3, 4, 5, 6, 7}, {0, 2, 4, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {6}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1}, {2, 5, 7}, {1, 2}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 4, 6}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 4, 5, 7}, {2, 3, 4, 5, 6, 7}, {3}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 5, 6}, {0, 1, 2, 3, 4, 5, 6, 7}, {2, 5, 6, 7}, {2, 3}, {0, 1, 2, 3, 4, 5, 6, 7}, {1, 2, 3, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {3, 7}, {5}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 4, 5}, {0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}]
+Iteration 37: Best valset aggregate score so far: 0.4266666666666667
+Iteration 37: Best program as per aggregate score on train_val: 7
+Iteration 37: Best program as per aggregate score on valset: 7
+Iteration 37: Best score on valset: 0.4266666666666667
+Iteration 37: Best score on train_val: 0.4266666666666667
+Iteration 37: Linear pareto front program index: 7
+Iteration 37: New program candidate index: 7
+Iteration 38: Selected program 4 score: 0.38
+HoverAdapter.evaluate elapsed: 21.50s (batch=3)
+Iteration 38: Proposed new text for instruction_prompt: ### Instruction:  
+Given a claim and a set of documents, your task is to generate a query that retrieves documents supporting the claim. Follow these steps to improve accuracy and comprehensiveness:  
+
+1. **Extract Core Entities and Relationships**:  
+   - Identify **named entities** (e.g., people, works, titles) and **explicit relationships** (e.g., "co-starred in," "dedicated to," "collaborated with") from the claim.  
+   - Prioritize **exact terms** directly mentioned in the documents, such as **full names** (e.g., "Charles Dennis Buchinsky"), **specific titles** (e.g., "Violent Restitution," "True Romance"), **unique descriptors** (e.g., "Leslie Nielsen comedy," "1995 film"), and **explicit connections** (e.g., "co-host," "dedicated to").  
+
+2. **Incorporate Indirect Connections**:  
+   - If the claim references a relationship (e.g., "part of," "related to"), explicitly mention the associated entity in the query. For example, if the claim mentions a "Leslie Nielsen comedy," include "Leslie Nielsen" and "comedy" to capture documents about his comedic roles.  
+   - Use terms like **"related works," "connected entities," or "collaborated with"** if indirect links are implied across documents (e.g., linking an actor to a film through shared collaborators).  
+
+3. **Expand for Secondary Context**:  
+   - Include **specific years**, **secondary entities**, or **contextual details** (e.g., "1995," "YouTube series") to narrow results and avoid missing documents. For example, if the claim mentions a film’s year, include the year in the query.  
+
+4. **Leverage Cross-Document Links**:  
+   - Look for indirect connections between entities across documents. For instance, if the claim mentions "Charles Dennis Buchinsky" and "Leslie Nielsen comedy," check if documents link "Charles Bronson" (the alias) to a film or role connected to Leslie Nielsen’s comedic work. Include terms like **"related works"** or **"connected entities"** if applicable.  
+
+5. **Balance Specificity and Generality**:  
+   - Use **exact terms** (e.g., "Brady Haran," "Periodic Videos") for precision, but include **broader terms** (e.g., "film," "podcast") if explicitly mentioned in the documents to capture indirect links.  
+   - Avoid vague terms like "entertainer" or "album" unless the documents use them.  
+
+6. **Test for Overlooked Entities**:  
+   - Revisit the claim and documents to identify **overlooked entities** (e.g., birth names, alternate titles, or secondary collaborators). For example, if the query misses a document about "Beyond Rangoon," check if the claim’s entity (e.g., Victor Slezak) is linked to that film in the documents.  
+
+7. **Iterate and Refine**:  
+   - If the initial query misses relevant documents, adjust the query by adding terms like **"related," "connected," "collaborated with," or "related works"** to capture indirect links. For example, if the claim mentions "Ice Princess" and "Kirsten Olson," explicitly include both in the query.  
+
+### Domain-Specific Considerations:  
+- **Exact Titles and Names**: Always prioritize **exact titles** (e.g., "Violent Restitution," "The Periodic Table of Videos") and **full names** (e.g., "Charles Dennis Buchinsky," "Leslie Nielsen") to avoid ambiguity.  
+- **Relationships**: Explicitly name entities even if the claim only mentions a relationship (e.g., "friend of X" → include "X" and "friend").  
+- **Secondary Details**: Include **years**, **specific works**, or **contextual terms** (e.g., "YouTube series," "podcast") to ensure precision.  
+- **Cross-Document Links**: Use **"related works"** or **"connected entities"** to capture indirect links between entities (e.g., linking an actor to a film through shared collaborators or themes).  
+
+### Example Adjustments:  
+- Instead of "Beulah Annan" AND "The King of Chutzpah," use **"Roxie Hart film" AND "Phil Silvers"** to explicitly target the film linked to the claim.  
+- For a claim about a song cover, include the **exact song title** (e.g., "I Would Die 4 U") and the **artist** (e.g., "Space Cowboy") to retrieve specific documents.  
+- When linking relationships, explicitly name the entity (e.g., **"Lucille Ball"**) if the documents reference it directly, even if the claim only mentions a friend.  
+
+### reasoning:  
+<Your reasoning here>  
+### query:  
+<Your refined query here>
+HoverAdapter.evaluate elapsed: 24.81s (batch=3)
+Iteration 38: New subsample score 3 is better than old score 2. Continue to full eval and add to candidate pool.
+HoverAdapter.evaluate elapsed: 99.59s (batch=150)
+HoverAdapter.evaluate elapsed: 138.11s (batch=300)
+Iteration 38: Full valset score for new program: 0.37333333333333335
+Iteration 38: Full testset score for new program: 0.38666666666666666
+Iteration 38: Full train_val score for new program: 0.37333333333333335
+Iteration 38: Individual valset scores for new program: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+Iteration 38: New valset pareto front scores: [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0]
+Iteration 38: Full valset pareto front score: 0.6266666666666667
+Iteration 38: Updated valset pareto front programs: [{0, 2, 3, 5, 6, 7}, {7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {4}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 3, 4, 5, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {8, 4, 5, 7}, {3, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 4, 5, 6, 8}, {0, 1, 4, 5, 6, 7, 8}, {8, 1, 4, 5}, {0, 3, 4, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 3, 4, 6, 7, 8}, {8, 3, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 4, 5, 6, 7, 8}, {3}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1}, {1, 7}, {2, 5, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 5, 7, 8}, {2, 7}, {4}, {6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 3, 5}, {8, 1}, {2, 3, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {2}, {1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {2, 3, 5, 7, 8}, {1, 2, 4, 5, 6, 7, 8}, {1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7}, {2}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 8}, {0, 1, 2, 3, 4, 5, 6, 8}, {1, 2, 3, 4, 6, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 3, 4, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 3}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {5}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {4, 5, 7}, {2, 6, 7}, {8, 1, 2, 6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 4, 7, 8}, {4, 5, 6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 6, 7, 8}, {1, 2, 3, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {2, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 7, 8}, {4}, {1, 2, 3, 4, 5, 6, 7}, {0, 2, 4, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {8, 6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1}, {2, 5, 7}, {1, 2}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 4, 6, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 4, 5, 7, 8}, {2, 3, 4, 5, 6, 7}, {3}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {8, 1, 5, 6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {2, 5, 6, 7}, {2, 3}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {1, 2, 3, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {3, 7}, {5}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 4, 5}, {0, 1, 2, 3, 4, 5, 6, 7, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}]
+Iteration 38: Best valset aggregate score so far: 0.4266666666666667
+Iteration 38: Best program as per aggregate score on train_val: 7
+Iteration 38: Best program as per aggregate score on valset: 7
+Iteration 38: Best score on valset: 0.4266666666666667
+Iteration 38: Best score on train_val: 0.4266666666666667
+Iteration 38: Linear pareto front program index: 7
+Iteration 38: New program candidate index: 8
+Iteration 39: Selected program 6 score: 0.3933333333333333
+HoverAdapter.evaluate elapsed: 32.69s (batch=3)
+Iteration 39: Proposed new text for instruction_prompt: # Enhanced Instructions for Document Retrieval Based on Claims  
+
+## Task Description  
+Given a **claim** and a **set of documents**, your task is to generate a **query** that retrieves documents **explicitly supporting the claim**. The query must be precise, leveraging **specific terms** from both the claim and the documents, while avoiding vague or generalized terms. The goal is to ensure **comprehensive coverage** of all relevant entities, relationships, and contextual details, even when the documents lack direct matches.  
+
+---
+
+### **Key Steps to Follow**  
+1. **Extract All Specific Terms from the Claim**  
+   - Identify **exact names** (e.g., full names, film titles, event names, years) and **specific descriptors** (e.g., "negative roles," "hosted 23 shows") directly mentioned in the claim.  
+   - Include **secondary details** (e.g., "1997 Stockholm Open – Doubles," "Ishqbaaz") even if they are not central to the claim, as they may link to critical evidence.  
+   - **Check for alternative names or typos** in the claim (e.g., "Going Back" vs. "Booked Out") and include both if plausible.  
+
+2. **Prioritize Exact Matches from Documents**  
+   - Use **exact titles** (e.g., "The Val Doonican Show," "Punchlines") and **full names** (e.g., "Bill Cullen," "Additi Gupta") from the documents.  
+   - Avoid general terms like "entertainer" or "album" unless explicitly used in the documents.  
+   - **Include all document-specific entities** (e.g., "Rochester Hills Michigan," "Ron Teachworth") even if they are not in the claim, as they may link to indirect evidence.  
+
+3. **Include All Explicit Relationships**  
+   - If the claim references a relationship (e.g., "co-star," "partnered with," "hosted"), explicitly mention the **associated entity** (e.g., "Nitin Sahrawat," "Mikael Tillström") in the query.  
+   - For indirect connections (e.g., "friend of"), ensure the query includes the **directly named entity** (e.g., "Lucille Ball") if the documents reference it.  
+   - **Test for related terms** (e.g., "Gerry Weber Open," "Chennai Open") that may overlap with the claim’s context.  
+
+4. **Account for Missing Context in the Documents**  
+   - If the documents lack the exact event or detail from the claim (e.g., "1997 Stockholm Open – Doubles"), include the **claim’s exact wording** in the query to capture related documents.  
+   - **Include the claim’s exact wording** even if it’s not in the documents, as it may help retrieve documents with similar phrasing.  
+
+5. **Avoid Overgeneralization**  
+   - Do not assume relationships (e.g., "hosted 23 shows" implies "Bill Cullen") unless the documents explicitly state the connection.  
+   - Include **specific years** (e.g., "1997") and **event types** (e.g., "Doubles") to avoid conflating unrelated events.  
+   - **Avoid vague terms** like "film" or "event" unless they are explicitly used in the documents.  
+
+6. **Test for Secondary Entities and Descriptors**  
+   - Include **all specific roles** (e.g., "negative roles," "producers") and **secondary entities** (e.g., "Punchlines," "Ishqbaaz") mentioned in the documents, even if they are not in the claim.  
+   - If a document mentions a **related but distinct entity** (e.g., "ZEE TV" vs. "STAR Plus"), explicitly include both to avoid missing relevant links.  
+   - **Check for nested relationships** (e.g., "director of a film that is a sequel") and include all linked entities.  
+
+---
+
+### **Example Adjustments**  
+- **Instead of**: "Paul Melba" AND "Val Doonican Show"  
+  **Use**: "Paul Melba" AND "Val Doonican Show" AND "Punchlines" AND "1997 Stockholm Open – Doubles" (to capture all shows and events mentioned in the documents).  
+- **Instead of**: "1999 Stockholm Open – Doubles" AND "Nicklas Kulti"  
+  **Use**: "1997 Stockholm Open – Doubles" AND "Nicklas Kulti" AND "Mikael Tillström" AND "Gerry Weber Open" (to explicitly target the claim’s event and related terms).  
+- **Instead of**: "Additi Gupta" AND "negative roles"  
+  **Use**: "Additi Gupta" AND "negative roles" AND "Ishqbaaz" AND "ZEE TV" (to include secondary details and related entities).  
+
+---
+
+### **Reasoning and Query Format**  
+### reasoning:  
+<Explain how the query incorporates specific terms, relationships, and contextual details from the claim and documents to ensure relevance and precision. Include adjustments for alternative names, typos, and secondary entities.>  
+### query:  
+"<Exact terms from the claim and documents> AND <specific entities, relationships, or descriptors> AND <alternative names/typos> AND <related terms>"  
+
+---
+
+### **Critical Considerations**  
+- **Balance Specificity and Generality**: Include exact terms but avoid over-constraining the query.  
+- **Handle Ambiguity**: If the documents lack the exact event or entity from the claim, include the claim’s wording to capture related documents.  
+- **Leverage Document-Specific Terms**: Prioritize terms like "Punchlines," "Ishqbaaz," or "1997" even if they are not central to the claim, as they may link to critical evidence.  
+- **Test for Nested Relationships**: For claims involving sequences (e.g., "sequel," "predecessor"), explicitly include all linked entities (e.g., "Koyaanisqatsi" AND "Powaqqatsi" AND "1982" AND "2005").  
+
+By following these steps, the query will systematically retrieve documents that explicitly support the claim while avoiding irrelevant or overly broad results.
+HoverAdapter.evaluate elapsed: 34.04s (batch=3)
+Iteration 39: New subsample score 1 is not better than old score 1, skipping
+Iteration 40: Selected program 3 score: 0.36
+HoverAdapter.evaluate elapsed: 35.63s (batch=3)
+Iteration 40: Proposed new text for instruction_prompt: ### Updated Instruction:  
+Given a claim and a set of documents, write a query to retrieve documents that **explicitly or implicitly support the claim**. Your query must:  
+1. **Incorporate both explicit and implicit terms** from the claim (e.g., names, attributes, relationships) and documents (e.g., domain-specific terminology, contextual clues).  
+   - **Explicit terms**: Directly mentioned entities (e.g., "Burn Gorman," "2015").  
+   - **Implicit terms**: Inferred connections (e.g., "Crimson Peak" as the film title, "flowering plant" as a genus attribute).  
+   - **Domain-specific terms**: Use terminology like "IATA codes" for airports, "Surrealist movement" for literary contexts, or "co-produced" for film production.  
+2. **Use logical operators (AND/OR/NOT)** to balance specificity (e.g., "2015," "Mr. Holly") and coverage (e.g., "gothic OR romance").  
+3. **Account for domain-specific knowledge** (e.g., "bass voice" for vocal ranges, "IATA codes" for airports) to resolve ambiguities (e.g., "ceased operations in 2015" for time-sensitive claims).  
+4. **Prioritize terms that resolve ambiguities** (e.g., "country" for national origin, "genre" for artistic contexts).  
+5. **Test your query against the provided documents** to ensure all relevant evidence is captured, including indirect support (e.g., "Georges Bataille" in Example 3).  
+
+### Reasoning Structure:  
+- **Identify the claim’s key components**: Subject (e.g., "Burn Gorman"), attributes (e.g., "2015," "Mr. Holly"), relationships (e.g., "co-produced by Guillermo del Toro").  
+- **Map explicit terms**: Direct matches from the claim and documents (e.g., "Burn Gorman," "Crimson Peak").  
+- **Infer implicit terms**: Use domain knowledge to deduce connections (e.g., "gothic romance" as a genre, "flowering plant" as a genus classification).  
+- **Structure the query**: Combine terms with logical operators (AND/OR/NOT) to ensure specificity while avoiding over-restriction.  
+- **Reflect on missed documents**: Adjust the query to include alternative names, contextual clues, or domain-specific terms (e.g., "Dieffenbachia bowmanii" in Example 2).  
+
+### Query Format:  
+Include explicit terms, inferred implicit terms, and domain-specific knowledge. Use logical operators to balance coverage and specificity.  
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+
+### Additional Guidelines:  
+- **For domain-specific entities**: If a term is ambiguous (e.g., "Constantinople Records"), infer its connection to the claim (e.g., "Billy Corgan" as the creator).  
+- **For indirect support**: Include terms like "origin," "location," or "native to" to capture implicit geographic or contextual clues.  
+- **For ambiguity resolution**: Use precise terms (e.g., "flowering plant" instead of "plant") to avoid false positives.  
+- **For testing**: Verify that the query retrieves all documents with explicit or implicit support, including those with indirect evidence (e.g., "Long Burn the Fire" in Example 3).  
+```
+HoverAdapter.evaluate elapsed: 28.03s (batch=3)
+Iteration 40: New subsample score 1 is not better than old score 1, skipping
+Iteration 41: Selected program 5 score: 0.4
+HoverAdapter.evaluate elapsed: 25.34s (batch=3)
+Iteration 41: Proposed new text for instruction_prompt: ### Task: Generate a Query to Retrieve Documents Supporting a Claim  
+**Objective**: Given a claim and a set of documents, create a search query that explicitly or implicitly supports the claim. The query must balance specificity and coverage, incorporate domain knowledge, and account for ambiguity.  
+
+### Key Requirements:  
+1. **Identify Key Components**:  
+   - **Extract entities**: Identify **subjects** (people, organizations, works), **attributes** (roles, dates, quantities), and **relationships** (actions, affiliations, temporal links) from the claim.  
+   - **Map to terms**: Use **explicit terms** from the documents (e.g., "Martin Flavin" for "Pulitzer Prize-winner") and **infer implicit terms** (e.g., "record label" for "label," "University of Iowa" for "Iowa Playwrights Workshop").  
+   - **Handle ambiguity**: Prioritize **specific terms** (e.g., "University of Florida" over "University of Texas") to avoid over-restriction, but include **synonyms** (e.g., "enrollment" for "students") for broader coverage.  
+
+2. **Incorporate Domain-Specific Knowledge**:  
+   - **Music**: Use "record label" for "label," "musician role" for "singer-songwriter," "bass voice" for "vocal range."  
+   - **Education**: Map "Ph.D." to university names, "enrollment" to student body size, "campus size" to "acreage."  
+   - **Sports**: Link "sponsored league" to league names, "sponsor" to company names, "association football" to football clubs.  
+   - **General**: Use "IATA codes" for airports, "Surrealist movement" for literary contexts, "ceased operations" for time-sensitive claims.  
+
+3. **Use Logical Operators Strategically**:  
+   - **Combine terms** with `AND/OR/NOT` to balance specificity (e.g., "Godhead" AND "label") and coverage (e.g., "singer songwriter" OR "musician").  
+   - **Resolve ambiguities** by prioritizing terms that narrow results (e.g., "University of Florida" for Ph.D. claims).  
+   - **Include indirect evidence** (e.g., "Ford" in a TV show sponsor context, "West Cheshire League" as a sponsored league).  
+
+4. **Account for Implicit and Indirect Support**:  
+   - **Synonym expansion**: Use synonyms for ambiguous terms (e.g., "students" → "enrollment," "sponsored" → "sponsor").  
+   - **Contextual mapping**: Link implicit terms to domain-specific concepts (e.g., "label" → "record label," "league" → "sponsored league").  
+   - **Temporal clues**: Include dates or time-sensitive terms (e.g., "founded before 1881") to capture indirect evidence.  
+
+5. **Test and Refine**:  
+   - **Validate queries** against documents to ensure all relevant evidence (explicit or implicit) is retrieved.  
+   - **Adjust terms** if documents are missed (e.g., add "Martin Flavin" to capture Ph.D. details).  
+
+### Query Format:  
+Structure the query to include:  
+- **Explicit terms** from the claim and documents.  
+- **Inferred domain terms** (e.g., "record label" for "label").  
+- **Logical operators** to balance specificity and coverage.  
+- **Synonyms/related terms** for ambiguity resolution.  
+
+```  
+### reasoning: <Your reasoning here>  
+### query: <Your query here>  
+```  
+
+### Niche Domain Knowledge to Include:  
+- **Music**: "label" → record label, "singer-songwriter" → musician role, "vocal range" → "bass voice".  
+- **Education**: "Ph.D." → university name, "enrollment" → student body size, "campus size" → "acreage".  
+- **Sports**: "sponsored league" → league name, "sponsor" → company name, "association football" → football club.  
+- **General**: "ceased operations" → time-sensitive claims, "country" → national origin, "IATA codes" → airport codes.  
+
+### Generalizable Strategy:  
+- **Synonym Expansion**: Use synonyms for ambiguous terms (e.g., "students" → "enrollment", "sponsored" → "sponsor").  
+- **Contextual Mapping**: Link implicit terms to domain-specific concepts (e.g., "label" → "record label", "league" → "sponsored league").  
+- **Ambiguity Resolution**: Prioritize specific terms (e.g., "University of Florida" over "University of Texas") to avoid over-restriction.  
+- **Temporal Linking**: Use dates or time-sensitive terms (e.g., "founded before 1881") to capture indirect evidence.  
+```

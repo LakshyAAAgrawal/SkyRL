@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim links \"Earthquake Visions\" (an album) to the sub-genre \"glam metal\" via the band It's Alive. The first document explicitly states that *Earthquake Visions* was recorded by the \"glam-style metal band It's Alive\" in 1994. Another document defines \"glam metal\" as a subgenre of heavy metal. To ensure precision, the query combines the album name, band name, and subgenre terms (\"glam metal,\" \"glam-style metal\") while specifying the year 1994.  \n\n### query:  \n\"Earthquake Visions\" AND \"It's Alive\" AND (\"glam metal\" OR \"glam-style metal\") AND \"1994\""
+}

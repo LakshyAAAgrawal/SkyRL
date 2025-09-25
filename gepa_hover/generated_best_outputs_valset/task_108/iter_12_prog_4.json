@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim states that \"The Ghost and Mr. Chicken\" was a play on the title of a 1995 film, but the documents only mention \"The Ghost and Mr. Chicken\" (1966) and its connection to \"The Ghost and Mrs. Muir\" (1947). The documents also confirm that 20th Century Fox, located in Century City, is a major studio. To align with the documents, the query must focus on the 1966 film's title origin and the Century City studios. The mention of a 1995 film is inconsistent with the documents, so it is omitted.  \n\n### query:  \n\"The Ghost and Mr. Chicken\" AND \"The Ghost and Mrs. Muir\" AND \"20th Century Fox\" AND \"Century City\" AND \"film studio\""
+}

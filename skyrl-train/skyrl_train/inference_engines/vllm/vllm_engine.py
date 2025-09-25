@@ -175,6 +175,7 @@ class BaseVLLMInferenceEngine(InferenceEngineInterface):
         self._dp_size = kwargs.get("data_parallel_size", 1)
 
         # Let subclass create the appropriate engine
+        print("LAKSHYA", args, kwargs)
         self.llm = self._create_engine(*args, **kwargs)
 
     def tp_size(self):
@@ -253,6 +254,7 @@ class VLLMInferenceEngine(BaseVLLMInferenceEngine):
     """Synchronous VLLM engine."""
 
     def _create_engine(self, *args, **kwargs):
+        print("LAKSHYA", args, kwargs)
         return vllm.LLM(*args, **kwargs)
 
     async def generate(self, input_batch: InferenceEngineInput) -> InferenceEngineOutput:
@@ -333,6 +335,7 @@ class AsyncVLLMInferenceEngine(BaseVLLMInferenceEngine):
     """Asynchronous VLLM engine."""
 
     def _create_engine(self, *args, **kwargs):
+        print("LAKSHYA", args, kwargs)
         # TODO (erictang000): potentially enable log requests for a debugging mode
         engine_args = vllm.AsyncEngineArgs(enable_log_requests=False, **kwargs)
         engine = vllm.AsyncLLMEngine.from_engine_args(engine_args)

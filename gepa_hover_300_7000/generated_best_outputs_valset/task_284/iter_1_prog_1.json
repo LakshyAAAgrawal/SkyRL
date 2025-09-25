@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim asserts that both the 2012 Columbia Lions football team's head coach (Pete Mangurian) and Kirk Kerkorian are Americans. The documents confirm Pete Mangurian as the 2012 head coach but do not mention Kirk Kerkorian at all. Since the documents lack any information about Kirk Kerkorian, the query must focus on verifying Pete Mangurian's nationality (implied by his association with Columbia University, a U.S. institution) and explicitly search for Kirk Kerkorian's nationality, though the documents do not address this. The query prioritizes exact terms from the claim and includes Boolean operators to target both individuals.  \n\n### query:  \n\"Pete Mangurian American\" AND \"Kirk Kerkorian American\""
+}

@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim references two key elements: (1) the **Cave Rock Tunnel** (where Tahoe Tessie is said to reside) and (2) a **town seven miles south of the tunnel** with a 2010 population of **842**. The documents confirm that the **Cave Rock Tunnel** is located approximately seven miles north of **Stateline**, Nevada. While the documents do not explicitly mention the population of Stateline, the claim's secondary detail (population) must be included to ensure the query captures any documents that might reference this specific town and its demographic data.  \n\n### query:  \n\"Cave Rock Tunnel\" AND \"Stateline\" AND \"population 842\""
+}

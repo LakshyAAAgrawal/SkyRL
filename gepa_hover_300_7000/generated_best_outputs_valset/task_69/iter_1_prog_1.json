@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim states that a film featuring \"Fortuosity\" as its first song was created before \"Mars Needs Moms.\" Documents confirm \"Fortuosity\" is the first song in *The Happiest Millionaire* (1967) and that *Mars Needs Moms* was released in 2011. The query must link \"Fortuosity\" to its film and compare its release date with *Mars Needs Moms*. Using exact phrases like \"Fortuosity first song\" and \"Mars Needs Moms\" ensures precision, while including \"1967\" and \"2011\" explicitly confirms the timeline.  \n\n### query:  \n\"Fortuosity first song The Happiest Millionaire\" AND \"Mars Needs Moms\" AND \"1967\" AND \"2011\""
+}

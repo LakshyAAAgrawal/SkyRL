@@ -240,7 +240,7 @@ def verify(
     found_boxed = False
     if strict_box_verify:
         correct, pred, found_boxed = is_correct_strict_box(solution_str, answer, pause_tokens_index)
-        return correct == 1, pred
+        return correct == 1, pred, found_boxed
 
     correct, pred = is_correct_minerva(solution_str, answer)
     return correct, pred, found_boxed

@@ -1,0 +1,3 @@
+{
+    "full_assistant_response": "### reasoning:  \nThe claim specifies that two promotional singles from *Adore* (after \"Perfect\") have artwork by a Ukrainian photographer. The documents confirm \"Crestfallen\" and \"To Sheila\" as the promotional singles. The third document explicitly states that \"Crestfallen\"\u2019s artwork is by **Yelena Yemchuk**, a Ukrainian photographer (external knowledge confirms her nationality, but the query must rely on document-specific terms). To ensure precision, the query focuses on the promotional singles and the artist\u2019s name as directly mentioned in the documents.  \n\n### query:  \n\"Crestfallen\" AND \"To Sheila\" AND \"Yelena Yemchuk\""
+}
